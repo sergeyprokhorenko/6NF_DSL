@@ -26,7 +26,7 @@ Here is a concise, Excel-friendly DSL for a bitemporal Anchor Model DWH with UUI
 -- DSL
 KNOT <entity_name> (<data_type>);
 
--- Equivalent SQL
+-- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <entity_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
     value <data_type> UNIQUE NOT NULL,
