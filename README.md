@@ -29,8 +29,7 @@ KNOT <knot_name> DATATYPE <data_type>;
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <knot_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
-    value <data_type> UNIQUE NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    value <data_type> UNIQUE NOT NULL
 );
 
 ```
@@ -44,13 +43,12 @@ ANCHOR <anchor_name>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <anchor_name> (
-    id UUID PRIMARY KEY DEFAULT uuidv7(),
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    id UUID PRIMARY KEY DEFAULT uuidv7()
 );
 
 ```
 
-### Create Anchor Attribute
+### Create Plain Attribute
 
 ```sql
 
