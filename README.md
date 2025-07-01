@@ -19,7 +19,7 @@ Here is a concise, Excel-friendly DSL for a bitemporal Anchor Model DWH with UUI
 | NORMALIZE | Flatten anchor/attribute structure for reporting |
 | DENORMALIZE | Denormalized view/table for performance |
 
-### Knots
+### Create Knot
 
 ```sql
 
@@ -35,20 +35,62 @@ CREATE TABLE <entity_name> (
 
 ```
 
+### Create Anchor
 
+```sql
 
+-- DSL
+ANCHOR <entity_name>;
 
+-- Equivalent PostgreSQL 18 SQL
+CREATE TABLE <entity_name> (
+    id UUID PRIMARY KEY DEFAULT uuidv7(),
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
 
+```
+
+### Create Plain Attribute
+
+```sql
+
+-- DSL
+ATTRIBUTE <entity_name> (<data_type>);
+
+-- Equivalent PostgreSQL 18 SQL
+CREATE TABLE account_name (
+    id UUID PRIMARY KEY DEFAULT uuidv7(),
+    account_id UUID NOT NULL REFERENCES account(id),
+    name TEXT NOT NULL,
+    application_time TIMESTAMPTZ NOT NULL,
+    system_time TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (account_id, application_time)
+);
+);
+
+```
+
+### Create Knotted Attribute
+
+```sql
+
+-- DSL
+ATTRIBUTE <entity_name> KNOT <entity_name>;
+
+-- Equivalent PostgreSQL 18 SQL
+CREATE TABLE account_number (
+    id UUID PRIMARY KEY DEFAULT uuidv7(),
+    account_id UUID NOT NULL REFERENCES account(id),
+    number_id UUID NOT NULL REFERENCES numbers(id),
+    application_time TIMESTAMPTZ NOT NULL,
+    system_time TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (account_id, application_time)
+);
+
+```
 
 
 ```sql
--- Anchors
-ANCHOR Account;
-ANCHOR Document;
-
--- Attributes
-ATTRIBUTE Account.Number KNOT Numbers TEMPORAL;
-ATTRIBUTE Account.Name TEXT TEMPORAL;
 
 -- Ties
 TIE AccountDocumentType (
@@ -71,61 +113,8 @@ EVOLVE Account.Name
 
 ## 2. Equivalent PostgreSQL 18 SQL
 
-### Knots
-
-```sql
-CREATE TABLE numbers (
-    id UUID PRIMARY KEY DEFAULT uuidv7(),
-    value TEXT UNIQUE NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE types (
-    id UUID PRIMARY KEY DEFAULT uuidv7(),
-    value TEXT UNIQUE NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-```
 
 
-### Anchors
-
-```sql
-CREATE TABLE account (
-    id UUID PRIMARY KEY DEFAULT uuidv7(),
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE document (
-    id UUID PRIMARY KEY DEFAULT uuidv7(),
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-```
-
-
-### Attributes (bitemporal, knotted and plain)
-
-```sql
--- Knotted, historized, bitemporal attribute
-CREATE TABLE account_number (
-    id UUID PRIMARY KEY DEFAULT uuidv7(),
-    account_id UUID NOT NULL REFERENCES account(id),
-    number_id UUID NOT NULL REFERENCES numbers(id),
-    application_time TIMESTAMPTZ NOT NULL,
-    system_time TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (account_id, application_time)
-);
-
--- Plain, historized, bitemporal attribute
-CREATE TABLE account_name (
-    id UUID PRIMARY KEY DEFAULT uuidv7(),
-    account_id UUID NOT NULL REFERENCES account(id),
-    name TEXT NOT NULL,
-    application_time TIMESTAMPTZ NOT NULL,
-    system_time TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (account_id, application_time)
-);
-```
 
 
 ### Tie (bitemporal, knotted)
