@@ -19,13 +19,29 @@ Here is a concise, Excel-friendly DSL for a bitemporal Anchor Model DWH with UUI
 | NORMALIZE | Flatten anchor/attribute structure for reporting |
 | DENORMALIZE | Denormalized view/table for performance |
 
-### Example Model (based on your SQL file, anonymized, no role names)
+### Knots
 
 ```sql
--- Knots
-KNOT Numbers (value TEXT);
-KNOT Types (value TEXT);
 
+-- DSL
+KNOT <entity_name> (<data_type>);
+
+-- Equivalent SQL
+CREATE TABLE <entity_name> (
+    id UUID PRIMARY KEY DEFAULT uuidv7(),
+    value <data_type> UNIQUE NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+```
+
+
+
+
+
+
+
+```sql
 -- Anchors
 ANCHOR Account;
 ANCHOR Document;
