@@ -24,10 +24,10 @@ Here is a concise, Excel-friendly DSL for a bitemporal Anchor Model DWH with UUI
 ```sql
 
 -- DSL
-KNOT <entity_name> (<data_type>);
+KNOT <knot_name> (<data_type>);
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <entity_name> (
+CREATE TABLE <knot_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
     value <data_type> UNIQUE NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
@@ -40,32 +40,31 @@ CREATE TABLE <entity_name> (
 ```sql
 
 -- DSL
-ANCHOR <entity_name>;
+ANCHOR <anchor_name>;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <entity_name> (
+CREATE TABLE <anchor_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 ```
 
-### Create Plain Attribute
+### Create Anchor Attribute
 
 ```sql
 
 -- DSL
-ATTRIBUTE <entity_name> (<data_type>);
+ATTRIBUTE <attribute_name> (<data_type>) ANCHOR <anchor_name>;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE account_name (
+CREATE TABLE <attribute_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
-    account_id UUID NOT NULL REFERENCES account(id),
-    name TEXT NOT NULL,
+    anchor_id UUID NOT NULL REFERENCES <anchor_name>(id),
+    value <data_type> UNIQUE NOT NULL,
     application_time TIMESTAMPTZ NOT NULL,
     system_time TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (account_id, application_time)
-);
+    UNIQUE (anchor_id, application_time, system_time)
 );
 
 ```
@@ -75,20 +74,20 @@ CREATE TABLE account_name (
 ```sql
 
 -- DSL
-ATTRIBUTE <entity_name> KNOT <entity_name>;
+ATTRIBUTE <attribute_name> KNOT <knot_name>;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE account_number (
+CREATE TABLE <attribute_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
-    account_id UUID NOT NULL REFERENCES account(id),
-    number_id UUID NOT NULL REFERENCES numbers(id),
+    anchor_id UUID NOT NULL REFERENCES <anchor_name>(id),
+    knot_id UUID NOT NULL REFERENCES <knot_name>(id),
     application_time TIMESTAMPTZ NOT NULL,
     system_time TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (account_id, application_time)
+    UNIQUE (account_id, application_time, system_time)
 );
 
 ```
-
+## ПРОДОЛЖИТЬ ОТСЮДА ВНИЗ
 
 ```sql
 
