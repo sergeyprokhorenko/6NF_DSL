@@ -107,10 +107,10 @@ CREATE TABLE <tie_name> (
     application_time TIMESTAMPTZ NOT NULL,
     system_time TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (
-        <anchor_or_knot_1_name>, 
-        <anchor_or_knot_2_name>,
+        <anchor_or_knot_1_name_id>, 
+        <anchor_or_knot_2_name_id>,
         -- etc.
-        <anchor_or_knot_n_name>,
+        <anchor_or_knot_n_name_id>,
         application_time,
         system_time
     )
