@@ -92,10 +92,10 @@ CREATE TABLE <attribute_name> (
 
 -- DSL
 CREATE TIE <tie_name> OF
-	    anchor_or_knot_1_id, 
-	    anchor_or_knot_2_id,
+	    <anchor_or_knot_1_name>, 
+	    <anchor_or_knot_2_name>,
 	    -- etc.
-	    anchor_or_knot_n_id;
+	    <anchor_or_knot_n_name>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <tie_name> (
