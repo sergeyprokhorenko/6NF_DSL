@@ -91,16 +91,29 @@ CREATE TABLE <attribute_name> (
 ```sql
 
 -- DSL
-TIE <anchor_name>;
+TIE <tie_name>
+	    anchor_or_knot_1_id, 
+	    anchor_or_knot_2_id,
+	    -- etc.
+	    anchor_or_knot_n_id;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <anchor_name> (
-    id UUID PRIMARY KEY DEFAULT uuidv7(),
-    account_id UUID NOT NULL REFERENCES account(id),
-    document_id UUID NOT NULL REFERENCES document(id),
-    type_id UUID NOT NULL REFERENCES types(id),
-    application_time TIMESTAMPTZ NOT NULL,
+CREATE TABLE <tie_name> (
+	id UUID PRIMARY KEY DEFAULT uuidv7(),
+    anchor_or_knot_1_id UUID NOT NULL REFERENCES <anchor_or_knot_1_name>(id),
+	anchor_or_knot_2_id UUID NOT NULL REFERENCES <anchor_or_knot_2_name>(id),
+	-- etc.
+	anchor_or_knot_n_id UUID NOT NULL REFERENCES <anchor_or_knot_n_name>(id),
+	application_time TIMESTAMPTZ NOT NULL,
     system_time TIMESTAMPTZ DEFAULT NOW()
+	UNIQUE (
+	    anchor_or_knot_1_id, 
+	    anchor_or_knot_2_id,
+	    -- etc.
+	    anchor_or_knot_n_id,
+        application_time,
+	    system_time
+	)
 );
 
 ```
