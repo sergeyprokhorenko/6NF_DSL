@@ -81,10 +81,33 @@ CREATE TABLE <attribute_name> (
     knot_id UUID NOT NULL REFERENCES <knot_name>(id),
     application_time TIMESTAMPTZ NOT NULL,
     system_time TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (account_id, application_time, system_time)
+    UNIQUE (anchor_id, application_time, system_time)
 );
 
 ```
+
+### Create Tie
+
+```sql
+
+-- DSL
+TIE <anchor_name>;
+
+-- Equivalent PostgreSQL 18 SQL
+CREATE TABLE <anchor_name> (
+    id UUID PRIMARY KEY DEFAULT uuidv7(),
+    account_id UUID NOT NULL REFERENCES account(id),
+    document_id UUID NOT NULL REFERENCES document(id),
+    type_id UUID NOT NULL REFERENCES types(id),
+    application_time TIMESTAMPTZ NOT NULL,
+    system_time TIMESTAMPTZ DEFAULT NOW()
+);
+
+```
+
+
+
+
 ## ПРОДОЛЖИТЬ ОТСЮДА ВНИЗ
 
 ```sql
