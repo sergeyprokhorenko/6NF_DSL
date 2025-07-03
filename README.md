@@ -24,7 +24,7 @@ Here is a concise, Excel-friendly DSL for a bitemporal Anchor Model DWH with UUI
 ```sql
 
 -- DSL
-KNOT <knot_name> DATATYPE <data_type>;
+CREATE KNOT <knot_name> DATATYPE <data_type>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <knot_name> (
@@ -39,7 +39,7 @@ CREATE TABLE <knot_name> (
 ```sql
 
 -- DSL
-ANCHOR <anchor_name>;
+CREATE ANCHOR <anchor_name>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <anchor_name> (
@@ -53,7 +53,7 @@ CREATE TABLE <anchor_name> (
 ```sql
 
 -- DSL
-ATTRIBUTE <attribute_name> ANCHOR <anchor_name> DATATYPE <data_type>;
+CREATE ATTRIBUTE <attribute_name> ANCHOR <anchor_name> DATATYPE <data_type>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute_name> (
@@ -72,7 +72,7 @@ CREATE TABLE <attribute_name> (
 ```sql
 
 -- DSL
-ATTRIBUTE <attribute_name> ANCHOR <anchor_name> KNOT <knot_name>;
+CREATE ATTRIBUTE <attribute_name> ANCHOR <anchor_name> KNOT <knot_name>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute_name> (
@@ -91,7 +91,7 @@ CREATE TABLE <attribute_name> (
 ```sql
 
 -- DSL
-TIE <tie_name> OF
+CREATE TIE <tie_name> OF
 	    anchor_or_knot_1_id, 
 	    anchor_or_knot_2_id,
 	    -- etc.
