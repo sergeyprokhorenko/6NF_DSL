@@ -100,10 +100,10 @@ CREATE TIE <tie_name> OF
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <tie_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
-    <anchor_or_knot_1_name> UUID NOT NULL REFERENCES <anchor_or_knot_1_name>(id),
-    <anchor_or_knot_2_name> UUID NOT NULL REFERENCES <anchor_or_knot_2_name>(id),
+    <anchor_or_knot_1_name_id> UUID NOT NULL REFERENCES <anchor_or_knot_1_name>(id),
+    <anchor_or_knot_2_name_id> UUID NOT NULL REFERENCES <anchor_or_knot_2_name>(id),
     -- etc.
-    <anchor_or_knot_n_name> UUID NOT NULL REFERENCES <anchor_or_knot_n_name>(id),
+    <anchor_or_knot_n_name_id> UUID NOT NULL REFERENCES <anchor_or_knot_n_name>(id),
     application_time TIMESTAMPTZ NOT NULL,
     system_time TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (
