@@ -91,7 +91,7 @@ CREATE TABLE <attribute_name> (
 ```sql
 
 -- DSL
-TIE <tie_name>
+TIE <tie_name> OF
 	    anchor_or_knot_1_id, 
 	    anchor_or_knot_2_id,
 	    -- etc.
@@ -99,21 +99,21 @@ TIE <tie_name>
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <tie_name> (
-	id UUID PRIMARY KEY DEFAULT uuidv7(),
+    id UUID PRIMARY KEY DEFAULT uuidv7(),
     anchor_or_knot_1_id UUID NOT NULL REFERENCES <anchor_or_knot_1_name>(id),
-	anchor_or_knot_2_id UUID NOT NULL REFERENCES <anchor_or_knot_2_name>(id),
-	-- etc.
-	anchor_or_knot_n_id UUID NOT NULL REFERENCES <anchor_or_knot_n_name>(id),
-	application_time TIMESTAMPTZ NOT NULL,
-    system_time TIMESTAMPTZ DEFAULT NOW()
-	UNIQUE (
-	    anchor_or_knot_1_id, 
-	    anchor_or_knot_2_id,
-	    -- etc.
-	    anchor_or_knot_n_id,
+    anchor_or_knot_2_id UUID NOT NULL REFERENCES <anchor_or_knot_2_name>(id),
+    -- etc.
+    anchor_or_knot_n_id UUID NOT NULL REFERENCES <anchor_or_knot_n_name>(id),
+    application_time TIMESTAMPTZ NOT NULL,
+    system_time TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (
+        anchor_or_knot_1_id, 
+        anchor_or_knot_2_id,
+        -- etc.
+        anchor_or_knot_n_id,
         application_time,
-	    system_time
-	)
+        system_time
+    )
 );
 
 ```
@@ -123,14 +123,6 @@ CREATE TABLE <tie_name> (
 
 ## ПРОДОЛЖИТЬ ОТСЮДА ВНИЗ
 
-```sql
-
--- Ties
-TIE AccountDocumentType (
-    Account -> Account,
-    Document -> Document,
-    Type -> Types TEMPORAL
-);
 
 -- Golden Record
 GOLDEN Account_Current AS
