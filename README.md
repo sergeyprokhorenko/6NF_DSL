@@ -53,7 +53,7 @@ CREATE TABLE <anchor_name> (
 ```sql
 
 -- DSL
-CREATE ATTRIBUTE <attribute_name> ANCHOR <anchor_name> DATATYPE <data_type>;
+CREATE ATTRIBUTE <attribute_name> ANCHOR <anchor_name> TYPE <data_type>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute_name> (
