@@ -141,21 +141,6 @@ EVOLVE Account.Name
 
 
 
-
-### Tie (bitemporal, knotted)
-
-```sql
-CREATE TABLE account_document_type (
-    id UUID PRIMARY KEY DEFAULT uuidv7(),
-    account_id UUID NOT NULL REFERENCES account(id),
-    document_id UUID NOT NULL REFERENCES document(id),
-    type_id UUID NOT NULL REFERENCES types(id),
-    application_time TIMESTAMPTZ NOT NULL,
-    system_time TIMESTAMPTZ DEFAULT NOW()
-);
-```
-
-
 ### Golden Record (current valid record for each anchor)
 
 ```sql
