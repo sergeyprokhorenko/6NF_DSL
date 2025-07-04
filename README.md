@@ -49,7 +49,7 @@ CREATE TABLE <attribute_name> (
     entity_id UUID NOT NULL REFERENCES <entity_name>(id),
     value <data_type> UNIQUE NOT NULL,
     application_time TIMESTAMPTZ NOT NULL,
-    system_time TIMESTAMPTZ DEFAULT NOW(),
+    recorded_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (entity_id, application_time, system_time)
 );
 
@@ -68,7 +68,7 @@ CREATE TABLE <attribute_name> (
     entity_id UUID NOT NULL REFERENCES <entity_name>(id),
     reference_id UUID NOT NULL REFERENCES <reference_name>(id),
     application_time TIMESTAMPTZ NOT NULL,
-    system_time TIMESTAMPTZ DEFAULT NOW(),
+    recorded_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (entity_id, application_time, system_time)
 );
 
@@ -93,7 +93,7 @@ CREATE TABLE <relationship_name> (
     -- etc.
     <entity_or_reference_n_name_id> UUID NOT NULL REFERENCES <entity_or_reference_n_name>(id),
     application_time TIMESTAMPTZ NOT NULL,
-    system_time TIMESTAMPTZ DEFAULT NOW(),
+    recorded_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (
         <entity_or_reference_1_name_id>, 
         <entity_or_kreference_2_name_id>,
@@ -125,7 +125,7 @@ CREATE TABLE <group_name> (
     -- etc.
     <attribute_name> UUID NOT NULL REFERENCES <reference_name>(id),
     application_time TIMESTAMPTZ NOT NULL,
-    system_time TIMESTAMPTZ DEFAULT NOW(),
+    recorded_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (entity_id, application_time, system_time)
 );
 
