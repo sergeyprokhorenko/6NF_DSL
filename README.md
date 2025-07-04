@@ -106,19 +106,19 @@ CREATE TABLE <relationship_name> (
 
 ```
 
-### Create Group of Attributes
+### Create Struct of Attributes
 
 ```sql
 
 -- DSL
-CREATE GROUP <group_name> FOR ENTITY <entity_name> (
+CREATE STRUCT <struct_name> FOR ENTITY <entity_name> (
 <attribute_name> TYPE <data_type>,
 -- etc.
 <attribute_name> REFERENCE <reference_name>
 );
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <group_name> (
+CREATE TABLE <struct_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
     entity_id UUID NOT NULL REFERENCES <entity_name>(id),
     <attribute_name> <data_type> UNIQUE NOT NULL,
