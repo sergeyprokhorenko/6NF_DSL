@@ -60,13 +60,13 @@ CREATE TABLE <attribute_name> (
 ```sql
 
 -- DSL
-CREATE ATTRIBUTE <attribute_name> ANCHOR <anchor_name> KNOT <knot_name>;
+CREATE ATTRIBUTE <attribute_name> ANCHOR <anchor_name> REFERENCE <reference_name>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
     anchor_id UUID NOT NULL REFERENCES <anchor_name>(id),
-    knot_id UUID NOT NULL REFERENCES <knot_name>(id),
+    reference_id UUID NOT NULL REFERENCES <reference_name>(id),
     application_time TIMESTAMPTZ NOT NULL,
     system_time TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (anchor_id, application_time, system_time)
