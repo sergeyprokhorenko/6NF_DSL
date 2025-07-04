@@ -55,7 +55,7 @@ CREATE TABLE <attribute_name> (
 
 ```
 
-### Create Knotted Attribute
+### Create Attribute with Reference
 
 ```sql
 
