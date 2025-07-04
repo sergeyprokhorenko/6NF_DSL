@@ -8,7 +8,7 @@ This project is inspired by Anchor Modeling and Data Vault.
 
 
 ### Create Reference
-Use Reference with caution because it is not temporal. It is safer to use Entity and Simple Attribute.
+Use a Reference with caution because it is not temporal. It is safer to use Entity and Simple Attribute.
 
 ```sql
 
@@ -108,7 +108,7 @@ CREATE TABLE <relationship_name> (
 ```
 
 ### Create Struct of Attributes
-Use Struct of Attributes with caution and only for attributes that change simultaneously, such as document or message attributes.
+Use a Struct of Attributes with caution, and only for attributes that change simultaneously - such as document or message attributes - or for Activity Stream data.
 
 ```sql
 
