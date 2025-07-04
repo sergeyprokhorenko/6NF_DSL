@@ -1,6 +1,6 @@
-# DSL for Bitemporal Anchor Modeling with UUIDv7
+# DSL for Bitemporal Sixth Normal Form with UUIDv7
 
-Here is a concise, Excel-friendly DSL for a bitemporal Anchor Model DWH with UUIDv7 primary keys, along with equivalent PostgreSQL 18 SQL code and detailed keyword explanations.
+Here is a concise, Excel-friendly DSL for a Bitemporal Sixth Normal Form DWH with UUIDv7 primary keys, along with equivalent PostgreSQL 18 SQL code and detailed keyword explanations.
 
 ## 1. DSL Syntax (Excel-friendly, concise)
 
