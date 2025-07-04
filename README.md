@@ -4,22 +4,8 @@ Here is a concise, Excel-friendly DSL for a Bitemporal Sixth Normal Form DWH wit
 
 This project is inspired by Anchor Modeling and Data Vault.
 
-## 1. DSL Syntax (Excel-friendly, concise)
+## 1. DSL Syntax
 
-### DSL Keywords
-
-| Keyword | Meaning |
-| :-- | :-- |
-| ANCHOR | Defines an anchor entity (table with UUIDv7 PK) |
-| KNOT | Defines a knot (finite value set, immutable, UUIDv7 PK) |
-| ATTRIBUTE | Defines an attribute (historized, optionally knotted, bitemporal, UUIDv7 PK) |
-| TIE | Defines a tie (relationship, optionally knotted, bitemporal, UUIDv7 PK) |
-| TEMPORAL | Marks an attribute/tie as bitemporal (application and system time) |
-| GOLDEN | Creates a "golden record" view (current valid record for each anchor) |
-| SNAPSHOT | Query as-of a specific point in time (bitemporal snapshot) |
-| EVOLVE | Incremental ETL/ELT operation, with change detection |
-| NORMALIZE | Flatten anchor/attribute structure for reporting |
-| DENORMALIZE | Denormalized view/table for performance |
 
 ### Create Knot
 
