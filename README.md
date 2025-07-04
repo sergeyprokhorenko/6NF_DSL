@@ -80,25 +80,25 @@ CREATE TABLE <attribute_name> (
 
 -- DSL
 CREATE TIE <tie_name> OF
-    <anchor_or_knot_1_name>, 
-    <anchor_or_knot_2_name>,
+    <anchor_or_reference_1_name>, 
+    <anchor_or_reference_2_name>,
     -- etc.
-    <anchor_or_knot_n_name>;
+    <anchor_or_reference_n_name>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <tie_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
-    <anchor_or_knot_1_name_id> UUID NOT NULL REFERENCES <anchor_or_knot_1_name>(id),
-    <anchor_or_knot_2_name_id> UUID NOT NULL REFERENCES <anchor_or_knot_2_name>(id),
+    <anchor_or_reference_1_name_id> UUID NOT NULL REFERENCES <anchor_or_reference_1_name>(id),
+    <anchor_or_reference_2_name_id> UUID NOT NULL REFERENCES <anchor_or_reference_2_name>(id),
     -- etc.
-    <anchor_or_knot_n_name_id> UUID NOT NULL REFERENCES <anchor_or_knot_n_name>(id),
+    <anchor_or_reference_n_name_id> UUID NOT NULL REFERENCES <anchor_or_reference_n_name>(id),
     application_time TIMESTAMPTZ NOT NULL,
     system_time TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (
-        <anchor_or_knot_1_name_id>, 
-        <anchor_or_knot_2_name_id>,
+        <anchor_or_reference_1_name_id>, 
+        <anchor_or_kreference_2_name_id>,
         -- etc.
-        <anchor_or_knot_n_name_id>,
+        <anchor_or_reference_n_name_id>,
         application_time,
         system_time
     )
