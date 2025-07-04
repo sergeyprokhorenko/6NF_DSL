@@ -41,7 +41,7 @@ CREATE TABLE <entity_name> (
 ```sql
 
 -- DSL
-CREATE ATTRIBUTE <attribute_name> ENTITY <entity_name> TYPE <data_type>;
+CREATE ATTRIBUTE <attribute_name> FOR ENTITY <entity_name> TYPE <data_type>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute_name> (
@@ -60,7 +60,7 @@ CREATE TABLE <attribute_name> (
 ```sql
 
 -- DSL
-CREATE ATTRIBUTE <attribute_name> ENTITY <entity_name> REFERENCE <reference_name>;
+CREATE ATTRIBUTE <attribute_name> FOR ENTITY <entity_name> REFERENCE <reference_name>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute_name> (
@@ -106,7 +106,23 @@ CREATE TABLE <relationship_name> (
 
 ```
 
+### Create Group of Attributes
 
+```sql
+
+-- DSL
+CREATE GROUP <group_name> FOR ENTITY <entity_name> (
+<attribute_name> TYPE <data_type>,
+-- etc.
+<attribute_name> REFERENCE <reference_name>
+);
+
+-- Equivalent PostgreSQL 18 SQL
+CREATE TABLE <entity_name> (
+    id UUID PRIMARY KEY DEFAULT uuidv7()
+);
+
+```
 
 
 ## ПРОДОЛЖИТЬ ОТСЮДА ВНИЗ
