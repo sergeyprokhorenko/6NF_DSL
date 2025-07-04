@@ -108,6 +108,7 @@ CREATE TABLE <relationship_name> (
 ```
 
 ### Create Struct of Attributes
+Use with caution and only for attributes that change simultaneously, such as document or message attributes.
 
 ```sql
 
