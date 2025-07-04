@@ -22,15 +22,15 @@ CREATE TABLE <reference_name> (
 
 ```
 
-### Create Anchor
+### Create Entity
 
 ```sql
 
 -- DSL
-CREATE ANCHOR <anchor_name>;
+CREATE ENTITY <entity_name>;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <anchor_name> (
+CREATE TABLE <entity_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7()
 );
 
@@ -41,16 +41,16 @@ CREATE TABLE <anchor_name> (
 ```sql
 
 -- DSL
-CREATE ATTRIBUTE <attribute_name> ANCHOR <anchor_name> TYPE <data_type>;
+CREATE ATTRIBUTE <attribute_name> ENTITY <entity_name> TYPE <data_type>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
-    anchor_id UUID NOT NULL REFERENCES <anchor_name>(id),
+    entity_id UUID NOT NULL REFERENCES <entity_name>(id),
     value <data_type> UNIQUE NOT NULL,
     application_time TIMESTAMPTZ NOT NULL,
     system_time TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (anchor_id, application_time, system_time)
+    UNIQUE (entity_id, application_time, system_time)
 );
 
 ```
@@ -60,16 +60,16 @@ CREATE TABLE <attribute_name> (
 ```sql
 
 -- DSL
-CREATE ATTRIBUTE <attribute_name> ANCHOR <anchor_name> REFERENCE <reference_name>;
+CREATE ATTRIBUTE <attribute_name> ENTITY <entity_name> REFERENCE <reference_name>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
-    anchor_id UUID NOT NULL REFERENCES <anchor_name>(id),
+    entity_id UUID NOT NULL REFERENCES <entity_name>(id),
     reference_id UUID NOT NULL REFERENCES <reference_name>(id),
     application_time TIMESTAMPTZ NOT NULL,
     system_time TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (anchor_id, application_time, system_time)
+    UNIQUE (entity_id, application_time, system_time)
 );
 
 ```
@@ -80,25 +80,25 @@ CREATE TABLE <attribute_name> (
 
 -- DSL
 CREATE TIE <tie_name> OF
-    <anchor_or_reference_1_name>, 
-    <anchor_or_reference_2_name>,
+    <entity_or_reference_1_name>, 
+    <entity_or_reference_2_name>,
     -- etc.
-    <anchor_or_reference_n_name>;
+    <entity_or_reference_n_name>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <tie_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
-    <anchor_or_reference_1_name_id> UUID NOT NULL REFERENCES <anchor_or_reference_1_name>(id),
-    <anchor_or_reference_2_name_id> UUID NOT NULL REFERENCES <anchor_or_reference_2_name>(id),
+    <entity_or_reference_1_name_id> UUID NOT NULL REFERENCES <entity_or_reference_1_name>(id),
+    <entity_or_reference_2_name_id> UUID NOT NULL REFERENCES <entity_or_reference_2_name>(id),
     -- etc.
-    <anchor_or_reference_n_name_id> UUID NOT NULL REFERENCES <anchor_or_reference_n_name>(id),
+    <entity_or_reference_n_name_id> UUID NOT NULL REFERENCES <entity_or_reference_n_name>(id),
     application_time TIMESTAMPTZ NOT NULL,
     system_time TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (
-        <anchor_or_reference_1_name_id>, 
-        <anchor_or_kreference_2_name_id>,
+        <entity_or_reference_1_name_id>, 
+        <entity_or_kreference_2_name_id>,
         -- etc.
-        <anchor_or_reference_n_name_id>,
+        <entity_or_reference_n_name_id>,
         application_time,
         system_time
     )
