@@ -48,7 +48,7 @@ CREATE TABLE <attribute_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
     entity_id UUID NOT NULL REFERENCES <entity_name>(id),
     value <data_type> UNIQUE NOT NULL,
-    valid_from TIMESTAMPTZ NOT NULL,
+    valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (entity_id, valid_from, recorded_at)
 );
@@ -67,7 +67,7 @@ CREATE TABLE <attribute_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
     entity_id UUID NOT NULL REFERENCES <entity_name>(id),
     reference_id UUID NOT NULL REFERENCES <reference_name>(id),
-    valid_from TIMESTAMPTZ NOT NULL,
+    valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (entity_id, valid_from, recorded_at)
 );
@@ -92,7 +92,7 @@ CREATE TABLE <relationship_name> (
     <entity_or_reference_2_name_id> UUID NOT NULL REFERENCES <entity_or_reference_2_name>(id),
     -- etc.
     <entity_or_reference_n_name_id> UUID NOT NULL REFERENCES <entity_or_reference_n_name>(id),
-    valid_from TIMESTAMPTZ NOT NULL,
+    valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (
         <entity_or_reference_1_name_id>, 
@@ -124,7 +124,7 @@ CREATE TABLE <group_name> (
     <attribute_name> <data_type> UNIQUE NOT NULL,
     -- etc.
     <attribute_name> UUID NOT NULL REFERENCES <reference_name>(id),
-    valid_from TIMESTAMPTZ NOT NULL,
+    valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (entity_id, valid_from, recorded_at)
 );
