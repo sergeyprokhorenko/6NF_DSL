@@ -108,7 +108,7 @@ CREATE TABLE <relationship_name> (
 ```
 
 ### Create Struct of Attributes
-Use a Struct of Attributes with caution, and only for **input** attributes that change simultaneously - such as document or message attributes - or for **output** attributes of Activity Stream data mart.
+Use a Struct of Attributes with caution, and only for **input** attributes that change simultaneously - such as document or message attributes - or for **output** attributes of Activity Stream data mart. For large numbers of attributes, the jsonb data type is recommended.
 
 ```sql
 
