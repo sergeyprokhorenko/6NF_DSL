@@ -7,15 +7,15 @@ This project is inspired by Anchor Modeling and Data Vault.
 ## 1. DSL Syntax
 
 
-### Create Knot
+### Create Reference
 
 ```sql
 
 -- DSL
-CREATE KNOT <knot_name> TYPE <data_type>;
+CREATE REFERENCE <reference_name> TYPE <data_type>;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <knot_name> (
+CREATE TABLE <reference_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
     value <data_type> UNIQUE NOT NULL
 );
