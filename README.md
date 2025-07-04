@@ -8,6 +8,7 @@ This project is inspired by Anchor Modeling and Data Vault.
 
 
 ### Create Reference
+Use Reference with caution, because it is not temporal.
 
 ```sql
 
