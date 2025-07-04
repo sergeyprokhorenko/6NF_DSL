@@ -2,7 +2,7 @@
 
 Here is a concise, Excel-friendly DSL for a Bitemporal Sixth Normal Form DWH with UUIDv7 primary keys, along with equivalent PostgreSQL 18 SQL code and detailed keyword explanations.
 
-This project is inspired by Anker Modeling and Data Volt.
+This project is inspired by Anchor Modeling and Data Vault.
 
 ## 1. DSL Syntax (Excel-friendly, concise)
 
