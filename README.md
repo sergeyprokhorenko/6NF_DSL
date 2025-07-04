@@ -2,7 +2,7 @@
 
 Here is a concise, Excel-friendly and autogeneratable DSL for a bitemporal Sixth Normal Form DWH with UUIDv7 primary keys, along with equivalent PostgreSQL 18 SQL code.
 
-This project is inspired by Anchor Modeling and Data Vault.
+This project is inspired by Anchor Modeling, Data Vault and Activity Schema.
 
 ## 1. DSL Syntax
 
@@ -108,7 +108,7 @@ CREATE TABLE <relationship_name> (
 ```
 
 ### Create Struct of Attributes
-Use a Struct of Attributes with caution, and only for attributes that change simultaneously - such as document or message attributes - or for Activity Stream data.
+Use a Struct of Attributes with caution, and only for input attributes that change simultaneously - such as document or message attributes - or for Activity Stream data.
 
 ```sql
 
