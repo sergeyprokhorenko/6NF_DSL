@@ -118,7 +118,7 @@ CREATE GROUP <group_name> FOR ENTITY <entity_name> (
 );
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <attribute_name> (
+CREATE TABLE <group_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
     entity_id UUID NOT NULL REFERENCES <entity_name>(id),
     <attribute_name> <data_type> UNIQUE NOT NULL,
