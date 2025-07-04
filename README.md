@@ -8,7 +8,7 @@ This project is inspired by Anchor Modeling and Data Vault.
 
 
 ### Create Reference
-Use Reference with caution, because it is not temporal.
+Use Reference with caution, because it is not temporal. It is safer to use Entity and Simple Attribute.
 
 ```sql
 
@@ -37,7 +37,7 @@ CREATE TABLE <entity_name> (
 
 ```
 
-### Create Plain Attribute
+### Create Simple Attribute
 
 ```sql
 
