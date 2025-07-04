@@ -74,19 +74,19 @@ CREATE TABLE <attribute_name> (
 
 ```
 
-### Create Tie
+### Create Relationship
 
 ```sql
 
 -- DSL
-CREATE TIE <tie_name> OF
+CREATE RELATIONSHIP <relationship_name> OF
     <entity_or_reference_1_name>, 
     <entity_or_reference_2_name>,
     -- etc.
     <entity_or_reference_n_name>;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <tie_name> (
+CREATE TABLE <relationship_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
     <entity_or_reference_1_name_id> UUID NOT NULL REFERENCES <entity_or_reference_1_name>(id),
     <entity_or_reference_2_name_id> UUID NOT NULL REFERENCES <entity_or_reference_2_name>(id),
