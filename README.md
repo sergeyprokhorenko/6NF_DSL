@@ -122,7 +122,7 @@ CREATE STRUCT <struct_name> FOR ENTITY <entity_name> (
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <struct_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
-    entity_id UUID NOT NULL REFERENCES <entity_name>(id),
+    entity_id UUID NOT NULL REFERENCES <entity_name>(id), -- for example, event_id
     <attribute_name> <data_type> UNIQUE NOT NULL,
     -- etc.
     <attribute_name> UUID NOT NULL REFERENCES <reference_name>(id),
