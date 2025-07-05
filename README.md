@@ -110,7 +110,7 @@ CREATE RELATIONSHIP <relationship_name> OF
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <relationship_name> (
-    id UUID DEFAULT uuidv7() UNIQUE,
+    id UUID DEFAULT uuidv7() UNIQUE, --It is not recommended to create external references to this auxiliary key for implementing business logic. Use this key only for technical purposes: logging, API, data exchange, debugging, auditing, manual analysis
     <entity_or_reference_1_name_id> UUID NOT NULL REFERENCES <entity_or_reference_1_name>(id),
     <entity_or_reference_2_name_id> UUID NOT NULL REFERENCES <entity_or_reference_2_name>(id),
     -- etc.
