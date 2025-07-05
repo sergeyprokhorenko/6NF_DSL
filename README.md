@@ -73,7 +73,7 @@ CREATE TABLE <attribute_name> (
 ```
 
 ### Create Struct of Attributes
-Use a Struct of Attributes for **input** attributes that change simultaneously - such as document or message attributes - or for **output** attributes of Activity Stream or other data mart. For large numbers of attributes, the jsonb data type is recommended.
+Use a Struct of Attributes for **input** attributes that change simultaneously - such as document or message attributes - or for **output** attributes of Activity Stream or other normalized data mart. For large numbers of attributes, the jsonb data type is recommended.
 
 ```sql
 
