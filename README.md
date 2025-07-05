@@ -46,12 +46,11 @@ CREATE ATTRIBUTE <attribute_name> FOR ENTITY <entity_name> TYPE <data_type>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute_name> (
-    id UUID PRIMARY KEY DEFAULT uuidv7(),
     entity_id UUID NOT NULL REFERENCES <entity_name>(id),
     value <data_type> UNIQUE NOT NULL,
     valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (entity_id, valid_from, recorded_at)
+    PRIMARY KEY (entity_id, valid_from, recorded_at)
 );
 
 ```
@@ -65,12 +64,11 @@ CREATE ATTRIBUTE <attribute_name> FOR ENTITY <entity_name> REFERENCE <reference_
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute_name> (
-    id UUID PRIMARY KEY DEFAULT uuidv7(),
     entity_id UUID NOT NULL REFERENCES <entity_name>(id),
     reference_id UUID NOT NULL REFERENCES <reference_name>(id),
     valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (entity_id, valid_from, recorded_at)
+    PRIMARY KEY (entity_id, valid_from, recorded_at)
 );
 
 ```
@@ -95,7 +93,7 @@ CREATE TABLE <relationship_name> (
     <entity_or_reference_n_name_id> UUID NOT NULL REFERENCES <entity_or_reference_n_name>(id),
     valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (
+    PRIMARY KEY (
         <entity_or_reference_1_name_id>, 
         <entity_or_kreference_2_name_id>,
         -- etc.
@@ -121,14 +119,13 @@ CREATE STRUCT <struct_name> FOR ENTITY <entity_name> (
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <struct_name> (
-    id UUID PRIMARY KEY DEFAULT uuidv7(),
     entity_id UUID NOT NULL REFERENCES <entity_name>(id), -- for example, event_id
     <attribute_name> <data_type> UNIQUE NOT NULL,
     -- etc.
     <attribute_name> UUID NOT NULL REFERENCES <reference_name>(id),
     valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
-    UNIQUE (entity_id, valid_from, recorded_at)
+    PRIMARY KEY (entity_id, valid_from, recorded_at)
 );
 
 ```
