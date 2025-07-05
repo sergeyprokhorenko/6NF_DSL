@@ -6,6 +6,19 @@ This project is inspired by Anchor Modeling, Data Vault and Activity Schema.
 
 ## 1. DSL Syntax
 
+### Create Entity
+
+```sql
+
+-- DSL
+CREATE ENTITY <entity_name>;
+
+-- Equivalent PostgreSQL 18 SQL
+CREATE TABLE <entity_name> (
+    id UUID PRIMARY KEY DEFAULT uuidv7()
+);
+
+```
 
 ### Create Reference
 Use a Reference with caution because it is not temporal. It is safer to use Entity and Simple Attribute.
@@ -19,20 +32,6 @@ CREATE REFERENCE <reference_name> TYPE <data_type>;
 CREATE TABLE <reference_name> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
     value <data_type> UNIQUE NOT NULL
-);
-
-```
-
-### Create Entity
-
-```sql
-
--- DSL
-CREATE ENTITY <entity_name>;
-
--- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <entity_name> (
-    id UUID PRIMARY KEY DEFAULT uuidv7()
 );
 
 ```
@@ -73,6 +72,31 @@ CREATE TABLE <attribute_name> (
 
 ```
 
+### Create Struct of Attributes
+Use a Struct of Attributes for **input** attributes that change simultaneously - such as document or message attributes - or for **output** attributes of Activity Stream data mart. For large numbers of attributes, the jsonb data type is recommended.
+
+```sql
+
+-- DSL
+CREATE STRUCT <struct_name> FOR ENTITY <entity_name> (
+<attribute_name> TYPE <data_type>,
+-- etc.
+<attribute_name> REFERENCE <reference_name>
+);
+
+-- Equivalent PostgreSQL 18 SQL
+CREATE TABLE <struct_name> (
+    entity_id UUID NOT NULL REFERENCES <entity_name>(id), -- for example, event_id
+    <attribute_name> <data_type> UNIQUE NOT NULL,
+    -- etc.
+    <attribute_name> UUID NOT NULL REFERENCES <reference_name>(id),
+    valid_from TIMESTAMPTZ DEFAULT NOW(),
+    recorded_at TIMESTAMPTZ DEFAULT NOW(),
+    PRIMARY KEY (entity_id, valid_from, recorded_at)
+);
+
+```
+
 ### Create Relationship
 
 ```sql
@@ -101,31 +125,6 @@ CREATE TABLE <relationship_name> (
         valid_from,
         recorded_at
     )
-);
-
-```
-
-### Create Struct of Attributes
-Use a Struct of Attributes for **input** attributes that change simultaneously - such as document or message attributes - or for **output** attributes of Activity Stream data mart. For large numbers of attributes, the jsonb data type is recommended.
-
-```sql
-
--- DSL
-CREATE STRUCT <struct_name> FOR ENTITY <entity_name> (
-<attribute_name> TYPE <data_type>,
--- etc.
-<attribute_name> REFERENCE <reference_name>
-);
-
--- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <struct_name> (
-    entity_id UUID NOT NULL REFERENCES <entity_name>(id), -- for example, event_id
-    <attribute_name> <data_type> UNIQUE NOT NULL,
-    -- etc.
-    <attribute_name> UUID NOT NULL REFERENCES <reference_name>(id),
-    valid_from TIMESTAMPTZ DEFAULT NOW(),
-    recorded_at TIMESTAMPTZ DEFAULT NOW(),
-    PRIMARY KEY (entity_id, valid_from, recorded_at)
 );
 
 ```
