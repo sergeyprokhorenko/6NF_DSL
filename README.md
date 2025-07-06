@@ -175,7 +175,7 @@ LEFT JOIN LATERAL (
 ) attribute3_result ON true
 ORDER BY entity_name.id;
 
-
+```
 
 
 
