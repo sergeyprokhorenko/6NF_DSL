@@ -131,14 +131,14 @@ CREATE TABLE <relationship_name> (
 
 ```
 
-### 
+### Denormalize From Entity with Last Recorded Attribute Values and Specified Valid Date and Time
 
 ```sql
 
 -- DSL
-SELECT * FROM ATTRIBUTES OF <entity_name> VALID AT <timestamp>;
+SELECT * FROM ATTRIBUTES OF <entity_name> VALID AT <timestamp>; --recorded_at attributes are processed using window functions
 
-
+-- Equivalent PostgreSQL 18 SQL
 
 
 
