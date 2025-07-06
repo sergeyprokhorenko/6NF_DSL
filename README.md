@@ -131,6 +131,20 @@ CREATE TABLE <relationship_name> (
 
 ```
 
+### 
+
+```sql
+
+-- DSL
+SELECT * FROM ATTRIBUTES OF <entity_name> VALID AT <timestamp>;
+
+
+
+
+
+
+
+
 
 
 
