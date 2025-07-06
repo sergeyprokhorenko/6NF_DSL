@@ -143,9 +143,17 @@ SELECT * FROM ATTRIBUTES OF <entity_name> VALID AT <timestamp>; --recorded_at at
 
 ```
 
+### Denormalize Entity for a Given Valid Date and Time Using Attribute Values Known at That Moment
+
+```sql
+
+-- DSL
+SELECT * FROM ATTRIBUTES OF <entity_name> VALID AT <timestamp>; --recorded_at attributes are processed using window functions
+
+-- Equivalent PostgreSQL 18 SQL
 
 
-
+```
 
 
 
