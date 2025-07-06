@@ -131,13 +131,13 @@ CREATE TABLE <relationship_name> (
 
 ```
 
-### Denormalize Entity
+### Snapshot Query
+The primary key entity_id is preserved. Window functions are used.
 
 ```sql
 
 -- DSL
 SELECT <attributes> FROM ATTRIBUTES OF <entity_name> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
---recorded_at attributes are processed using window functions
 
 -- Equivalent PostgreSQL 18 SQL
 
