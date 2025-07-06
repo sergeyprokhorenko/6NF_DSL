@@ -132,7 +132,8 @@ CREATE TABLE <relationship_name> (
 ```
 
 ### Snapshot Query
-The primary key entity_id is preserved. Window functions are applied.
+The primary key entity_id is preserved.
+Structs of Attributes can be used alongside Simple Attributes and Attributes with Reference.
 
 ```sql
 
