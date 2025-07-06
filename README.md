@@ -140,6 +140,41 @@ The primary key entity_id is preserved. Window functions are applied.
 SELECT <attributes> FROM ATTRIBUTES OF <entity_name> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
 
 -- Equivalent PostgreSQL 18 SQL
+-- Equivalent PostgreSQL 18 SQL for Multiple Attributes Snapshot Query
+SELECT 
+    entity_name.id,
+    attribute1_result.value,
+    attribute2_result.value,
+    attribute3_result.value
+FROM entity_name
+LEFT JOIN LATERAL (
+    SELECT value 
+    FROM attribute1_name 
+    WHERE attribute1_name.entity_id = entity_name.id
+      AND attribute1_name.valid_from <= <valid_at>
+      AND attribute1_name.recorded_at <= <last_recorded_before>
+    ORDER BY attribute1_name.valid_from DESC, attribute1_name.recorded_at DESC
+    LIMIT 1
+) attribute1_result ON true
+LEFT JOIN LATERAL (
+    SELECT value 
+    FROM attribute2_name 
+    WHERE attribute2_name.entity_id = entity_name.id
+      AND attribute2_name.valid_from <= <valid_at>
+      AND attribute2_name.recorded_at <= <last_recorded_before>
+    ORDER BY attribute2_name.valid_from DESC, attribute2_name.recorded_at DESC
+    LIMIT 1
+) attribute2_result ON true
+LEFT JOIN LATERAL (
+    SELECT value 
+    FROM attribute3_name 
+    WHERE attribute3_name.entity_id = entity_name.id
+      AND attribute3_name.valid_from <= <valid_at>
+      AND attribute3_name.recorded_at <= <last_recorded_before>
+    ORDER BY attribute3_name.valid_from DESC, attribute3_name.recorded_at DESC
+    LIMIT 1
+) attribute3_result ON true
+ORDER BY entity_name.id;
 
 
 
