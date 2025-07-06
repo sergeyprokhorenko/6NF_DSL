@@ -131,30 +131,17 @@ CREATE TABLE <relationship_name> (
 
 ```
 
-### Denormalize Entity for a Given Valid Date and Time Using Last Recorded Attribute Values
+### Denormalize Entity
 
 ```sql
 
 -- DSL
-SELECT <attributes> FROM LAST RECORDED ATTRIBUTES OF <entity_name> VALID AT <timestamp>; --recorded_at attributes are processed using window functions
-SELECT <attributes> FROM ATTRIBUTES OF <entity_name> VALID AT <valid_date_time> LAST RECORDED BEFORE <valid_date_time>;
+SELECT <attributes> FROM ATTRIBUTES OF <entity_name> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
+--recorded_at attributes are processed using window functions
 
 -- Equivalent PostgreSQL 18 SQL
 
 
-```
-
-### Denormalize Entity for a Given Valid Date and Time Using Attribute Values Known at That Moment
-
-```sql
-
--- DSL
-SELECT <attributes> FROM ATTRIBUTES OF <entity_name> VALID AT <timestamp>; --recorded_at attributes are processed using window functions
-
--- Equivalent PostgreSQL 18 SQL
-
-
-```
 
 
 
