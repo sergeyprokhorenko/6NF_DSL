@@ -136,7 +136,8 @@ CREATE TABLE <relationship_name> (
 ```sql
 
 -- DSL
-SELECT * FROM ATTRIBUTES OF <entity_name> VALID AT <timestamp>; --recorded_at attributes are processed using window functions
+SELECT <attributes> FROM LAST RECORDED ATTRIBUTES OF <entity_name> VALID AT <timestamp>; --recorded_at attributes are processed using window functions
+SELECT <attributes> FROM ATTRIBUTES OF <entity_name> VALID AT <valid_date_time> LAST RECORDED BEFORE <valid_date_time>;
 
 -- Equivalent PostgreSQL 18 SQL
 
@@ -148,7 +149,7 @@ SELECT * FROM ATTRIBUTES OF <entity_name> VALID AT <timestamp>; --recorded_at at
 ```sql
 
 -- DSL
-SELECT * FROM ATTRIBUTES OF <entity_name> VALID AT <timestamp>; --recorded_at attributes are processed using window functions
+SELECT <attributes> FROM ATTRIBUTES OF <entity_name> VALID AT <timestamp>; --recorded_at attributes are processed using window functions
 
 -- Equivalent PostgreSQL 18 SQL
 
