@@ -131,7 +131,7 @@ CREATE TABLE <relationship_name> (
 
 ```
 
-### Denormalize From Entity with Last Recorded Attribute Values and Specified Valid Date and Time
+### Denormalize Entity for a Given Valid Date and Time Using Last Recorded Attribute Values
 
 ```sql
 
@@ -141,6 +141,7 @@ SELECT * FROM ATTRIBUTES OF <entity_name> VALID AT <timestamp>; --recorded_at at
 -- Equivalent PostgreSQL 18 SQL
 
 
+```
 
 
 
