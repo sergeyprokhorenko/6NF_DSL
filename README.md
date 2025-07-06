@@ -132,7 +132,7 @@ CREATE TABLE <relationship_name> (
 ```
 
 ### Snapshot Query
-The primary key entity_id is preserved. Window functions are used.
+The primary key entity_id is preserved. Window functions are applied.
 
 ```sql
 
