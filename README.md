@@ -140,7 +140,6 @@ The primary key entity_id is preserved. Window functions are applied.
 SELECT <attributes> FROM ATTRIBUTES OF <entity_name> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
 
 -- Equivalent PostgreSQL 18 SQL
--- Equivalent PostgreSQL 18 SQL for Multiple Attributes Snapshot Query
 SELECT 
     entity_name.id,
     attribute1_result.value,
