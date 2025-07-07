@@ -220,11 +220,7 @@ FROM (
         AND recorded_at <= <last_recorded_before>
 ) 
 WHERE rn = 1
-ORDER BY
-    <entity_or_reference_1_id>,
-    <entity_or_reference_2_id>,
-    -- etc.
-    <entity_or_reference_2_id>;
+ORDER BY relationship.id;
 
 ```
 
