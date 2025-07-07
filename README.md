@@ -132,7 +132,7 @@ CREATE TABLE <relationship_name> (
 
 ```
 
-### Entity and Attributes Snapshot Query
+### Entity and Its Attributes Snapshot Query
 The primary key entity_id is preserved.
 Structs of Attributes can be used as sources alongside Simple Attributes and Attributes with Reference.
 
