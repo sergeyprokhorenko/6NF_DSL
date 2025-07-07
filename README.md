@@ -11,10 +11,10 @@ This project is inspired by Anchor Modeling, Data Vault and Activity Schema.
 ```sql
 
 -- DSL
-CREATE ENTITY <entity_name>;
+CREATE ENTITY <entity>;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <entity_name> (
+CREATE TABLE <entity> (
     id UUID PRIMARY KEY DEFAULT uuidv7()
 );
 
@@ -26,10 +26,10 @@ Use a Reference with caution because it is not temporal. It is safer to use Enti
 ```sql
 
 -- DSL
-CREATE REFERENCE <reference_name> TYPE <data_type>;
+CREATE REFERENCE <reference> TYPE <data_type>;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <reference_name> (
+CREATE TABLE <reference> (
     id UUID PRIMARY KEY DEFAULT uuidv7(),
     value <data_type> UNIQUE NOT NULL
 );
@@ -41,11 +41,11 @@ CREATE TABLE <reference_name> (
 ```sql
 
 -- DSL
-CREATE ATTRIBUTE <attribute_name> FOR ENTITY <entity_name> TYPE <data_type>;
+CREATE ATTRIBUTE <attribute> FOR ENTITY <entity> TYPE <data_type>;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <attribute_name> (
-    entity_id UUID NOT NULL REFERENCES <entity_name>(id),
+CREATE TABLE <attribute> (
+    entity_id UUID NOT NULL REFERENCES <entity>(id),
     value <data_type> UNIQUE NOT NULL,
     valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
@@ -59,12 +59,12 @@ CREATE TABLE <attribute_name> (
 ```sql
 
 -- DSL
-CREATE ATTRIBUTE <attribute_name> FOR ENTITY <entity_name> REFERENCE <reference_name>;
+CREATE ATTRIBUTE <attribute> FOR ENTITY <entity> REFERENCE <reference>;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <attribute_name> (
-    entity_id UUID NOT NULL REFERENCES <entity_name>(id),
-    reference_id UUID NOT NULL REFERENCES <reference_name>(id),
+CREATE TABLE <attribute> (
+    entity_id UUID NOT NULL REFERENCES <entity>(id),
+    reference_id UUID NOT NULL REFERENCES <reference>(id),
     valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
     PRIMARY KEY (entity_id, valid_from, recorded_at)
@@ -78,18 +78,18 @@ Use a Struct of Attributes for **input** attributes that change simultaneously -
 ```sql
 
 -- DSL
-CREATE STRUCT <struct_name> FOR ENTITY <entity_name> (
-<attribute_name> TYPE <data_type>,
+CREATE STRUCT <struct> FOR ENTITY <entity> (
+<attribute> TYPE <data_type>,
 -- etc.
-<attribute_name> REFERENCE <reference_name>
+<attribute> REFERENCE <reference>
 );
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <struct_name> (
-    entity_id UUID NOT NULL REFERENCES <entity_name>(id), -- for example, event_id
-    <attribute_name> <data_type> UNIQUE NOT NULL,
+CREATE TABLE <struct> (
+    entity_id UUID NOT NULL REFERENCES <entity>(id), -- for example, event_id
+    <attribute> <data_type> UNIQUE NOT NULL,
     -- etc.
-    <attribute_name> UUID NOT NULL REFERENCES <reference_name>(id),
+    <attribute> UUID NOT NULL REFERENCES <reference>(id),
     valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
     PRIMARY KEY (entity_id, valid_from, recorded_at)
@@ -102,22 +102,22 @@ CREATE TABLE <struct_name> (
 ```sql
 
 -- DSL
-CREATE RELATIONSHIP <relationship_name> OF
-    <entity_or_reference_1_name>, 
-    <entity_or_reference_2_name>,
+CREATE RELATIONSHIP <relationship> OF
+    <entity_or_reference_1>, 
+    <entity_or_reference_2>,
     -- etc.
-    <entity_or_reference_n_name>;
+    <entity_or_reference_n>;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <relationship_name> (
+CREATE TABLE <relationship> (
     id UUID DEFAULT uuidv7() UNIQUE,
     /*It is not recommended to create external references to this auxiliary key (id) for implementing business logic.*/
     /*Use this key only for technical purposes: logging, API, data exchange, debugging, auditing, manual analysis*/
-    <entity_or_reference_1_id> UUID NOT NULL REFERENCES <entity_or_reference_1_name>(id),
+    <entity_or_reference_1_id> UUID NOT NULL REFERENCES <entity_or_reference_1>(id),
     --For example:     user_id UUID NOT NULL REFERENCES user(id),
-    <entity_or_reference_2_id> UUID NOT NULL REFERENCES <entity_or_reference_2_name>(id),
+    <entity_or_reference_2_id> UUID NOT NULL REFERENCES <entity_or_reference_2>(id),
     -- etc.
-    <entity_or_reference_n_id> UUID NOT NULL REFERENCES <entity_or_reference_n_name>(id),
+    <entity_or_reference_n_id> UUID NOT NULL REFERENCES <entity_or_reference_n>(id),
     valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
     PRIMARY KEY (
@@ -139,43 +139,43 @@ Structs of Attributes can be used as sources alongside Simple Attributes and Att
 ```sql
 
 -- DSL
-SELECT <attributes> FROM ATTRIBUTES OF <entity_name> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
+SELECT <attributes> FROM ATTRIBUTES OF <entity> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
 
 -- Equivalent PostgreSQL 18 SQL
 SELECT 
-    entity_name.id,
+    entity.id,
     attribute1_result.value,
     attribute2_result.value,
     attribute3_result.value
-FROM entity_name
+FROM entity
 LEFT JOIN LATERAL (
     SELECT value 
-    FROM attribute1_name 
-    WHERE attribute1_name.entity_id = entity_name.id
-      AND attribute1_name.valid_from <= <valid_at>
-      AND attribute1_name.recorded_at <= <last_recorded_before>
-    ORDER BY attribute1_name.valid_from DESC, attribute1_name.recorded_at DESC
+    FROM attribute1
+    WHERE attribute1.entity_id = entity.id
+      AND attribute1.valid_from <= <valid_at>
+      AND attribute1.recorded_at <= <last_recorded_before>
+    ORDER BY attribute1.valid_from DESC, attribute1.recorded_at DESC
     LIMIT 1
 ) attribute1_result ON true
 LEFT JOIN LATERAL (
     SELECT value 
-    FROM attribute2_name 
-    WHERE attribute2_name.entity_id = entity_name.id
-      AND attribute2_name.valid_from <= <valid_at>
-      AND attribute2_name.recorded_at <= <last_recorded_before>
-    ORDER BY attribute2_name.valid_from DESC, attribute2_name.recorded_at DESC
+    FROM attribute2 
+    WHERE attribute2.entity_id = entity.id
+      AND attribute2.valid_from <= <valid_at>
+      AND attribute2.recorded_at <= <last_recorded_before>
+    ORDER BY attribute2.valid_from DESC, attribute2.recorded_at DESC
     LIMIT 1
 ) attribute2_result ON true
 LEFT JOIN LATERAL (
     SELECT value 
-    FROM attribute3_name 
-    WHERE attribute3_name.entity_id = entity_name.id
-      AND attribute3_name.valid_from <= <valid_at>
-      AND attribute3_name.recorded_at <= <last_recorded_before>
-    ORDER BY attribute3_name.valid_from DESC, attribute3_name.recorded_at DESC
+    FROM attribute3
+    WHERE attribute3.entity_id = entity.id
+      AND attribute3.valid_from <= <valid_at>
+      AND attribute3.recorded_at <= <last_recorded_before>
+    ORDER BY attribute3.valid_from DESC, attribute3.recorded_at DESC
     LIMIT 1
 ) attribute3_result ON true
-ORDER BY entity_name.id;
+ORDER BY entity.id;
 
 ```
 
@@ -184,7 +184,7 @@ ORDER BY entity_name.id;
 ```sql
 
 -- DSL
-SELECT <entities_and_references> FROM <relationship_name> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
+SELECT <entities_and_references> FROM <relationship> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
 
 -- Equivalent PostgreSQL 18 SQL
 
