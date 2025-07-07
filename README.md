@@ -114,6 +114,7 @@ CREATE TABLE <relationship_name> (
     /*It is not recommended to create external references to this auxiliary key (id) for implementing business logic.*/
     /*Use this key only for technical purposes: logging, API, data exchange, debugging, auditing, manual analysis*/
     <entity_or_reference_1_id> UUID NOT NULL REFERENCES <entity_or_reference_1_name>(id),
+    --For example:     user_id UUID NOT NULL REFERENCES user(id),
     <entity_or_reference_2_id> UUID NOT NULL REFERENCES <entity_or_reference_2_name>(id),
     -- etc.
     <entity_or_reference_n_id> UUID NOT NULL REFERENCES <entity_or_reference_n_name>(id),
