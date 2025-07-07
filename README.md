@@ -113,17 +113,17 @@ CREATE TABLE <relationship_name> (
     id UUID DEFAULT uuidv7() UNIQUE,
     /*It is not recommended to create external references to this auxiliary key (id) for implementing business logic.*/
     /*Use this key only for technical purposes: logging, API, data exchange, debugging, auditing, manual analysis*/
-    <entity_or_reference_1_name_id> UUID NOT NULL REFERENCES <entity_or_reference_1_name>(id),
-    <entity_or_reference_2_name_id> UUID NOT NULL REFERENCES <entity_or_reference_2_name>(id),
+    <entity_or_reference_1_id> UUID NOT NULL REFERENCES <entity_or_reference_1_name>(id),
+    <entity_or_reference_2_id> UUID NOT NULL REFERENCES <entity_or_reference_2_name>(id),
     -- etc.
-    <entity_or_reference_n_name_id> UUID NOT NULL REFERENCES <entity_or_reference_n_name>(id),
+    <entity_or_reference_n_id> UUID NOT NULL REFERENCES <entity_or_reference_n_name>(id),
     valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
     PRIMARY KEY (
-        <entity_or_reference_1_name_id>, 
-        <entity_or_kreference_2_name_id>,
+        <entity_or_reference_1_id>, 
+        <entity_or_kreference_2_id>,
         -- etc.
-        <entity_or_reference_n_name_id>,
+        <entity_or_reference_n_id>,
         valid_from,
         recorded_at
     )
