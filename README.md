@@ -180,3 +180,13 @@ ORDER BY entity_name.id;
 
 ### Relationship Snapshot Query
 
+```sql
+
+-- DSL
+SELECT <attributes> FROM ATTRIBUTES OF <entity_name> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
+
+-- Equivalent PostgreSQL 18 SQL
+
+
+```
+
