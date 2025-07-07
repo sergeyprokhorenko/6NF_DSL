@@ -187,7 +187,43 @@ ORDER BY entity.id;
 SELECT <entities_and_references> FROM <relationship> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
 
 -- Equivalent PostgreSQL 18 SQL
-
+SELECT
+    id,
+    <entity_or_reference_1_id>,
+    <entity_or_reference_2_id>,
+    -- etc.
+    <entity_or_reference_n_id>,
+    valid_from,
+    recorded_at
+FROM (
+    SELECT
+        r.id,
+        r.<entity_or_reference_1_id>,
+        r.<entity_or_reference_2_id>,
+        -- etc.
+        r.<entity_or_reference_n_id>,
+        r.valid_from,
+        r.recorded_at,
+        ROW_NUMBER() OVER (
+            PARTITION BY
+                r.<entity_or_reference_1_id>,
+                r.<entity_or_reference_2_id>
+                -- etc.
+                r.<entity_or_reference_n_id>
+            ORDER BY
+                r.valid_from DESC,
+                r.recorded_at DESC
+        ) AS rn
+    FROM <relationship> r
+    WHERE
+        r.valid_from <= <valid_at>
+        AND r.recorded_at <= <last_recorded_before>
+) t
+WHERE t.rn = 1
+ORDER BY
+    <entity_or_reference_1_id>,
+    <entity_or_reference_2_id>;
+    -- etc.
 
 ```
 
