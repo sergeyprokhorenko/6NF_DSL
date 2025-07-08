@@ -87,7 +87,7 @@ CREATE STRUCT <struct> FOR ENTITY <entity> (
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <struct> (
     entity_id UUID NOT NULL REFERENCES <entity>(id), -- for example, event_id
-    <attribute> <data_type> UNIQUE NOT NULL,
+    <attribute> <data_type> UNIQUE NOT NULL, -- for example, metadata from the source
     -- etc.
     <attribute> UUID NOT NULL REFERENCES <reference>(id),
     valid_from TIMESTAMPTZ DEFAULT NOW(),
