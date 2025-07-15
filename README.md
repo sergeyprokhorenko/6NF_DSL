@@ -231,12 +231,16 @@ ORDER BY relationship.id;
 
 -- DSL
 NORMALIZE
-INTO <entity1> (<attribute_11>,  <attribute_12>,  etc., <attribute_1n>) SELECT …
-INTO <entity2> (<attribute_21>,  <attribute_22>,  etc., <attribute_2m>) SELECT …
-etc.
-RELATIONSHIPS  <relationship_1>,
- <relationship_2>, etc., <relationship_k>
-FROM <table> WHERE <conditions>;
+    INTO <entity1> (<attribute_11>,  <attribute_12>,  etc., <attribute_1n>) SELECT …
+    INTO <entity2> (<attribute_21>,  <attribute_22>,  etc., <attribute_2m>) SELECT …
+    etc.
+RELATIONSHIPS  
+    <relationship_1>,
+    <relationship_2>,
+    etc.,
+    <relationship_k>
+FROM <table> 
+WHERE <conditions>;
 
 -- Equivalent PostgreSQL 18 SQL
 
