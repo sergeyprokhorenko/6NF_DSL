@@ -162,39 +162,39 @@ SELECT <attributes> FROM ATTRIBUTES OF <entity> VALID AT <valid_at> LAST RECORDE
 
 -- Equivalent PostgreSQL 18 SQL
 SELECT 
-    entity.id,
-    attribute1_result.value,
-    attribute2_result.value,
-    attribute3_result.value
-FROM entity
+    <entity>.id,
+    <attribute1>_result.value,
+    <attribute2>_result.value,
+    <attribute3>_result.value
+FROM <entity>
 LEFT JOIN LATERAL (
     SELECT value 
-    FROM attribute1
-    WHERE attribute1.entity_id = entity.id
-      AND attribute1.valid_from <= <valid_at>
-      AND attribute1.recorded_at <= <last_recorded_before>
-    ORDER BY attribute1.valid_from DESC, attribute1.recorded_at DESC
+    FROM <attribute1>
+    WHERE <attribute1>.entity_id = <entity>.id
+      AND <attribute1>.valid_from <= <valid_at>
+      AND <attribute1>.recorded_at <= <last_recorded_before>
+    ORDER BY <attribute1>.valid_from DESC, <attribute1>.recorded_at DESC
     LIMIT 1
-) attribute1_result ON true
+) <attribute1>_result ON true
 LEFT JOIN LATERAL (
     SELECT value 
-    FROM attribute2 
-    WHERE attribute2.entity_id = entity.id
-      AND attribute2.valid_from <= <valid_at>
-      AND attribute2.recorded_at <= <last_recorded_before>
-    ORDER BY attribute2.valid_from DESC, attribute2.recorded_at DESC
+    FROM <attribute2>
+    WHERE <attribute2>.entity_id = <entity>.id
+      AND <attribute2>.valid_from <= <valid_at>
+      AND <attribute2>.recorded_at <= <last_recorded_before>
+    ORDER BY <attribute2>.valid_from DESC, <attribute2>.recorded_at DESC
     LIMIT 1
-) attribute2_result ON true
+) <attribute2>_result ON true
 LEFT JOIN LATERAL (
     SELECT value 
-    FROM attribute3
-    WHERE attribute3.entity_id = entity.id
-      AND attribute3.valid_from <= <valid_at>
-      AND attribute3.recorded_at <= <last_recorded_before>
-    ORDER BY attribute3.valid_from DESC, attribute3.recorded_at DESC
+    FROM <attribute3>
+    WHERE <attribute3>.entity_id = <entity>.id
+      AND <attribute3>.valid_from <= <valid_at>
+      AND <attribute3>.recorded_at <= <last_recorded_before>
+    ORDER BY <attribute3>.valid_from DESC, <attribute3>.recorded_at DESC
     LIMIT 1
-) attribute3_result ON true
-ORDER BY entity.id;
+) <attribute3>_result ON true
+ORDER BY <entity>.id;
 
 ```
 
