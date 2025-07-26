@@ -2,7 +2,7 @@
 
 Here is a concise, Excel-friendly and autogeneratable DSL for a bitemporal Sixth Normal Form DWH with UUIDv7 primary keys, along with equivalent PostgreSQL 18 SQL code.
 
-This project is inspired by Anchor Modeling, Data Vault and Activity Schema.
+This project is inspired by [Anchor Modeling](https://en.wikipedia.org/wiki/Anchor_modeling), [Data Vault](https://en.wikipedia.org/wiki/Data_vault_modeling) and [Activity Schema](https://www.activityschema.com/).
 
 ## Table of Contents
 
