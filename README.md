@@ -260,7 +260,7 @@ ORDER BY <relationship>.id;
 ```
 
 
-## 9.Table Normalization Query
+## 9. Table Normalization Query
 
 ```sql
 
