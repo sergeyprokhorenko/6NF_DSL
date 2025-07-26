@@ -1,6 +1,6 @@
 # DSL for Bitemporal Sixth Normal Form with UUIDv7
 
-Here is a concise, Excel-friendly and autogeneratable DSL for a [bitemporal](https://en.wikipedia.org/wiki/Bitemporal_modeling) Sixth Normal Form DWH with UUIDv7 primary keys, along with equivalent PostgreSQL 18 SQL code.
+Here is a concise, Excel-friendly and autogeneratable Domain-Specific Language for a [bitemporal](https://en.wikipedia.org/wiki/Bitemporal_modeling) Sixth Normal Form DWH with UUIDv7 primary keys, along with equivalent PostgreSQL 18 SQL code.
 
 This project is inspired by [Anchor Modeling](https://en.wikipedia.org/wiki/Anchor_modeling), [Data Vault](https://en.wikipedia.org/wiki/Data_vault_modeling) and [Activity Schema](https://www.activityschema.com/).
 
