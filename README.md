@@ -245,77 +245,89 @@ WHERE <condition>;
 
 -- Equivalent PostgreSQL 18 SQL
 
--- Insert Into entity1
+BEGIN;
+
+-- Insert distinct records into entity1
 INSERT INTO <entity1> (id, <attribute_11>, <attribute_12>, <attribute_13>, valid_from, recorded_at)
 SELECT 
     uuidv7(),
     col1,
     col2,
     col3,
-    timestamp_column,
+    valid_from,
     NOW()
 FROM (
-    SELECT DISTINCT col1, col2, col3, timestamp_column
+    SELECT DISTINCT col1, col2, col3, valid_from
     FROM <source_table>
     WHERE <condition>
-) AS sub;
+) AS distinct_entity1;
 
--- Insert Into entity2
+-- Insert distinct records into entity2
 INSERT INTO <entity2> (id, <attribute_21>, <attribute_22>, valid_from, recorded_at)
 SELECT 
     uuidv7(),
     col4,
     col5,
-    timestamp_column,
+    valid_from,
     NOW()
 FROM (
-    SELECT DISTINCT col4, col5, timestamp_column
+    SELECT DISTINCT col4, col5, valid_from
     FROM <source_table>
     WHERE <condition>
-) AS sub;
+) AS distinct_entity2;
 
--- Insert Into entity3
+-- Insert distinct records into entity3
 INSERT INTO <entity3> (id, <attribute_31>, valid_from, recorded_at)
 SELECT 
     uuidv7(),
     col6,
-    timestamp_column,
+    valid_from,
     NOW()
 FROM (
-    SELECT DISTINCT col6, timestamp_column
+    SELECT DISTINCT col6, valid_from
     FROM <source_table>
     WHERE <condition>
-) AS sub;
+) AS distinct_entity3;
 
--- Insert Into relationship_1
+-- Insert records into relationship_1 by joining source_table with entities
 INSERT INTO <relationship_1> (id, <entity1_id>, <entity2_id>, valid_from, recorded_at)
 SELECT
     uuidv7(),
     <entity1>.id,
     <entity2>.id,
-    <source_table>.timestamp_column,
+    <source_table>.valid_from,
     NOW()
 FROM <source_table>
-JOIN <entity1> ON <entity1>.<attribute_11> = <source_table>.col1 
-    AND <entity1>.<attribute_12> = <source_table>.col2 
-    AND <entity1>.<attribute_13> = <source_table>.col3
-JOIN <entity2> ON <entity2>.<attribute_21> = <source_table>.col4 
-    AND <entity2>.<attribute_22> = <source_table>.col5
+JOIN <entity1> ON
+    <entity1>.<attribute_11> = <source_table>.col1 AND
+    <entity1>.<attribute_12> = <source_table>.col2 AND
+    <entity1>.<attribute_13> = <source_table>.col3 AND
+    <entity1>.valid_from = <source_table>.valid_from
+JOIN <entity2> ON
+    <entity2>.<attribute_21> = <source_table>.col4 AND
+    <entity2>.<attribute_22> = <source_table>.col5 AND
+    <entity2>.valid_from = <source_table>.valid_from
 WHERE <condition>;
 
--- Insert Into relationship_2
+-- Insert records into relationship_2 by joining source_table with entities
 INSERT INTO <relationship_2> (id, <entity2_id>, <entity3_id>, valid_from, recorded_at)
 SELECT
     uuidv7(),
     <entity2>.id,
     <entity3>.id,
-    <source_table>.timestamp_column,
+    <source_table>.valid_from,
     NOW()
 FROM <source_table>
-JOIN <entity2> ON <entity2>.<attribute_21> = <source_table>.col4 
-    AND <entity2>.<attribute_22> = <source_table>.col5
-JOIN <entity3> ON <entity3>.<attribute_31> = <source_table>.col6
+JOIN <entity2> ON
+    <entity2>.<attribute_21> = <source_table>.col4 AND
+    <entity2>.<attribute_22> = <source_table>.col5 AND
+    <entity2>.valid_from = <source_table>.valid_from
+JOIN <entity3> ON
+    <entity3>.<attribute_31> = <source_table>.col6 AND
+    <entity3>.valid_from = <source_table>.valid_from
 WHERE <condition>;
+
+COMMIT;
 
 
 ```
