@@ -6,15 +6,15 @@ This project is inspired by Anchor Modeling, Data Vault and Activity Schema.
 
 ## Table of Contents
 
-- [1. Create Entity](#1-create-entity)
-- [2. Create Reference](#2-create-reference)
-- [3. Create Simple Attribute](#3-create-simple-attribute)
-- [4. Create Attribute with Reference](#4-create-attribute-with-reference)
-- [5. Create Struct of Attributes](#5-create-struct-of-attributes)
-- [6. Create Relationship](#6-create-relationship)
-- [7. Entity and Its Attributes Snapshot Query](#7-entity-and-its-attributes-snapshot-query)
-- [8. Relationship Snapshot Query](#8-relationship-snapshot-query)
-- [9. Table Normalization Query](#9-table-normalization-query)
+[1. Create Entity](#1-create-entity)  
+[2. Create Reference](#2-create-reference)  
+[3. Create Simple Attribute](#3-create-simple-attribute)  
+[4. Create Attribute with Reference](#4-create-attribute-with-reference)  
+[5. Create Struct of Attributes](#5-create-struct-of-attributes)  
+[6. Create Relationship](#6-create-relationship)  
+[7. Entity and Its Attributes Snapshot Query](#7-entity-and-its-attributes-snapshot-query)  
+[8. Relationship Snapshot Query](#8-relationship-snapshot-query)  
+[9. Table Normalization Query](#9-table-normalization-query)  
 
 
 ## 1. Create Entity
