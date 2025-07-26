@@ -8,6 +8,9 @@ This project is inspired by Anchor Modeling, Data Vault and Activity Schema.
 
 ```sql
 
+-- EBNF
+
+
 -- DSL
 CREATE ENTITY <entity>;
 
@@ -23,6 +26,9 @@ Use a Reference with caution because it is not temporal. It is safer to use Enti
 
 ```sql
 
+-- EBNF
+
+
 -- DSL
 CREATE REFERENCE <reference> TYPE <data_type>;
 
@@ -37,6 +43,9 @@ CREATE TABLE <reference> (
 ## 3. Create Simple Attribute
 
 ```sql
+
+-- EBNF
+
 
 -- DSL
 CREATE ATTRIBUTE <attribute> FOR ENTITY <entity> TYPE <data_type>;
@@ -56,6 +65,9 @@ CREATE TABLE <attribute> (
 
 ```sql
 
+-- EBNF
+
+
 -- DSL
 CREATE ATTRIBUTE <attribute> FOR ENTITY <entity> REFERENCE <reference>;
 
@@ -74,6 +86,9 @@ CREATE TABLE <attribute> (
 Use a Struct of Attributes for **input** attributes that change simultaneously - such as document or message attributes - or for **output** attributes of Activity Stream or other normalized data mart. For large numbers of attributes, the jsonb data type is recommended.
 
 ```sql
+
+-- EBNF
+
 
 -- DSL
 CREATE STRUCT <struct> FOR ENTITY <entity> (
@@ -98,6 +113,9 @@ CREATE TABLE <struct> (
 ## 6. Create Relationship
 
 ```sql
+
+-- EBNF
+
 
 -- DSL
 CREATE RELATIONSHIP <relationship> OF
@@ -135,6 +153,9 @@ The primary key entity_id is preserved.
 Structs of Attributes can be used as sources alongside Simple Attributes and Attributes with Reference.
 
 ```sql
+
+-- EBNF
+
 
 -- DSL
 SELECT <attributes> FROM ATTRIBUTES OF <entity> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
@@ -181,6 +202,9 @@ ORDER BY entity.id;
 
 ```sql
 
+-- EBNF
+
+
 -- DSL
 SELECT <entities_and_references> FROM <relationship> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
 
@@ -226,6 +250,9 @@ ORDER BY relationship.id;
 ## 9.Table Normalization Query
 
 ```sql
+
+-- EBNF
+
 
 -- DSL
 NORMALIZE
