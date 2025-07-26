@@ -231,15 +231,16 @@ ORDER BY relationship.id;
 
 -- DSL
 NORMALIZE
-    INTO <entity1> (<attribute_11>, <attribute_12>, <attribute_13>) SELECT DISTINCT col1, col2, col3 FROM <source_table>
-    INTO <entity2> (<attribute_21>, <attribute_22>) SELECT DISTINCT col4, col5 FROM <source_table>
-    INTO <entity3> (<attribute_31>) SELECT DISTINCT col6 FROM <source_table>
+    INTO <entity1> (<attribute_11>, <attribute_12>, <attribute_13>) SELECT col1, col2, col3 FROM <source_table>
+    INTO <entity2> (<attribute_21>, <attribute_22>) SELECT col4, col5 FROM <source_table>
+    INTO <entity3> (<attribute_31>) SELECT col6 FROM <source_table>
     etc.
 RELATIONSHIPS  
-    <relationship_1>, --OF <entity1>, <entity2>
-    <relationship_2>, --OF <entity2>, <entity3>
+    <relationship_1>, -- OF <entity1>, <entity2>
+    <relationship_2>, -- OF <entity2>, <entity3>
     etc.
-FROM <source_table> VALID FROM <valid_from>
+VALID FROM <valid_from> -- Timestamp in <source_table>
+FROM <source_table>
 WHERE <condition>;
 
 
