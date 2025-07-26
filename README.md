@@ -242,6 +242,7 @@ RELATIONSHIPS
 FROM <source_table> VALID FROM <timestamp_column>
 WHERE <condition>;
 
+
 -- Equivalent PostgreSQL 18 SQL
 
 -- Insert Into entity1
@@ -257,7 +258,7 @@ FROM (
     SELECT DISTINCT col1, col2, col3, timestamp_column
     FROM <source_table>
     WHERE <condition>
-) sub;
+) AS sub;
 
 -- Insert Into entity2
 INSERT INTO <entity2> (id, <attribute_21>, <attribute_22>, valid_from, recorded_at)
@@ -271,7 +272,7 @@ FROM (
     SELECT DISTINCT col4, col5, timestamp_column
     FROM <source_table>
     WHERE <condition>
-) sub;
+) AS sub;
 
 -- Insert Into entity3
 INSERT INTO <entity3> (id, <attribute_31>, valid_from, recorded_at)
@@ -284,32 +285,36 @@ FROM (
     SELECT DISTINCT col6, timestamp_column
     FROM <source_table>
     WHERE <condition>
-) sub;
+) AS sub;
 
 -- Insert Into relationship_1
 INSERT INTO <relationship_1> (id, <entity1_id>, <entity2_id>, valid_from, recorded_at)
 SELECT
     uuidv7(),
-    e1.id,
-    e2.id,
-    s.timestamp_column,
+    <entity1>.id,
+    <entity2>.id,
+    <source_table>.timestamp_column,
     NOW()
-FROM <source_table> s
-JOIN <entity1> e1 ON e1.<attribute_11> = s.col1 AND e1.<attribute_12> = s.col2 AND e1.<attribute_13> = s.col3
-JOIN <entity2> e2 ON e2.<attribute_21> = s.col4 AND e2.<attribute_22> = s.col5
+FROM <source_table>
+JOIN <entity1> ON <entity1>.<attribute_11> = <source_table>.col1 
+    AND <entity1>.<attribute_12> = <source_table>.col2 
+    AND <entity1>.<attribute_13> = <source_table>.col3
+JOIN <entity2> ON <entity2>.<attribute_21> = <source_table>.col4 
+    AND <entity2>.<attribute_22> = <source_table>.col5
 WHERE <condition>;
 
 -- Insert Into relationship_2
 INSERT INTO <relationship_2> (id, <entity2_id>, <entity3_id>, valid_from, recorded_at)
 SELECT
     uuidv7(),
-    e2.id,
-    e3.id,
-    s.timestamp_column,
+    <entity2>.id,
+    <entity3>.id,
+    <source_table>.timestamp_column,
     NOW()
-FROM <source_table> s
-JOIN <entity2> e2 ON e2.<attribute_21> = s.col4 AND e2.<attribute_22> = s.col5
-JOIN <entity3> e3 ON e3.<attribute_31> = s.col6
+FROM <source_table>
+JOIN <entity2> ON <entity2>.<attribute_21> = <source_table>.col4 
+    AND <entity2>.<attribute_22> = <source_table>.col5
+JOIN <entity3> ON <entity3>.<attribute_31> = <source_table>.col6
 WHERE <condition>;
 
 
