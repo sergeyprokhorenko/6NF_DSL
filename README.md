@@ -4,9 +4,7 @@ Here is a concise, Excel-friendly and autogeneratable DSL for a bitemporal Sixth
 
 This project is inspired by Anchor Modeling, Data Vault and Activity Schema.
 
-## 1. DSL Syntax
-
-### Create Entity
+## 1. Create Entity
 
 ```sql
 
@@ -20,7 +18,7 @@ CREATE TABLE <entity> (
 
 ```
 
-### Create Reference
+## 2. Create Reference
 Use a Reference with caution because it is not temporal. It is safer to use Entity and Simple Attribute.
 
 ```sql
@@ -36,7 +34,7 @@ CREATE TABLE <reference> (
 
 ```
 
-### Create Simple Attribute
+## 3. Create Simple Attribute
 
 ```sql
 
@@ -54,7 +52,7 @@ CREATE TABLE <attribute> (
 
 ```
 
-### Create Attribute with Reference
+## 4. Create Attribute with Reference
 
 ```sql
 
@@ -72,7 +70,7 @@ CREATE TABLE <attribute> (
 
 ```
 
-### Create Struct of Attributes
+## 5. Create Struct of Attributes
 Use a Struct of Attributes for **input** attributes that change simultaneously - such as document or message attributes - or for **output** attributes of Activity Stream or other normalized data mart. For large numbers of attributes, the jsonb data type is recommended.
 
 ```sql
@@ -97,7 +95,7 @@ CREATE TABLE <struct> (
 
 ```
 
-### Create Relationship
+## 6. Create Relationship
 
 ```sql
 
@@ -132,7 +130,7 @@ CREATE TABLE <relationship> (
 
 ```
 
-### Entity and Its Attributes Snapshot Query
+## 7. Entity and Its Attributes Snapshot Query
 The primary key entity_id is preserved.
 Structs of Attributes can be used as sources alongside Simple Attributes and Attributes with Reference.
 
@@ -179,7 +177,7 @@ ORDER BY entity.id;
 
 ```
 
-### Relationship Snapshot Query
+## 8. Relationship Snapshot Query
 
 ```sql
 
@@ -225,7 +223,7 @@ ORDER BY relationship.id;
 ```
 
 
-### Table Normalization Query
+## 9.Table Normalization Query
 
 ```sql
 
