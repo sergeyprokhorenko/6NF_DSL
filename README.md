@@ -163,9 +163,9 @@ SELECT <attributes> FROM ATTRIBUTES OF <entity> VALID AT <valid_at> LAST RECORDE
 -- Equivalent PostgreSQL 18 SQL
 SELECT 
     <entity>.id,
-    <attribute1>_result.value,
-    <attribute2>_result.value,
-    <attribute3>_result.value
+    <attribute1>.value,
+    <attribute2>.value,
+    <attribute3>.value
 FROM <entity>
 LEFT JOIN LATERAL (
     SELECT value 
