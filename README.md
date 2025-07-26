@@ -4,6 +4,19 @@ Here is a concise, Excel-friendly and autogeneratable DSL for a bitemporal Sixth
 
 This project is inspired by Anchor Modeling, Data Vault and Activity Schema.
 
+## Table of Contents
+
+- [1. Create Entity](## 1. Create Entity)
+- [2. Create Reference](## 2. Create Reference)
+- [3. Create Simple Attribute](## 3. Create Simple Attribute)
+- [4. Create Attribute with Reference](## 4. Create Attribute with Reference)
+- [5. Create Struct of Attributes](## 5. Create Struct of Attributes)
+- [6. Create Relationship](## 6. Create Relationship)
+- [7. Entity and Its Attributes Snapshot Query](## 7. Entity and Its Attributes Snapshot Query)
+- [8. Relationship Snapshot Query](## 8. Relationship Snapshot Query)
+- [9.Table Normalization Query](## 9.Table Normalization Query)
+
+
 ## 1. Create Entity
 
 ```sql
