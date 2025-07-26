@@ -242,7 +242,129 @@ RELATIONSHIPS
 FROM <table> 
 WHERE <conditions>;
 
+```
+
+### Сделано искусственным интеллектом:
+
+```sql
+
+-- DSL
+NORMALIZE
+    INTO <entity1> (<attribute_11>, <attribute_12>, <attribute_13>) SELECT DISTINCT col1, col2, col3 FROM <source_table>
+    INTO <entity2> (<attribute_21>, <attribute_22>) SELECT DISTINCT col4, col5 FROM <source_table>
+    INTO <entity3> (<attribute_31>) SELECT DISTINCT col6 FROM <source_table>
+RELATIONSHIPS  
+    <relationship_1> OF <entity1>, <entity2>,
+    <relationship_2> OF <entity2>, <entity3>
+FROM <source_table> 
+WHERE <condition>;
+
 -- Equivalent PostgreSQL 18 SQL
+WITH entity1_insert AS (
+    INSERT INTO <entity1> (id, <attribute_11>, <attribute_12>, <attribute_13>, valid_from, recorded_at)
+    SELECT 
+        uuidv7(),
+        DISTINCT col1, 
+        col2, 
+        col3,
+        NOW(),
+        NOW()
+    FROM <source_table>
+    WHERE <condition>
+    ON CONFLICT (<attribute_11>, <attribute_12>, <attribute_13>, valid_from, recorded_at) DO NOTHING
+    12>, <attribute_13>
+),
+entity2_insert AS (
+    INSERT INTO <entity2> (id, <attribute_21>, <attribute_22>, valid_from, recorded_at)
+    SELECT 
+        uuidv7(),
+        DISTINCT col4,
+        col5,
+        NOW(),
+        NOW()
+    FROM <source_table>
+    WHERE <condition>
+    ON CONFLICT (<attribute_21>, <attribute_22>, valid_from, recorded_at) DO NOTHING
+    RETURNING id, <attribute_21>, <attribute_22>
+),
+entity3_insert AS (
+    INSERT INTO <entity3> (id, <attribute_31>, valid_from, recorded_at)
+    SELECT 
+        uuidv7(),
+        DISTINCT col6,
+        NOW(),
+        NOW()
+    FROM <source_table>
+    WHERE <condition>
+    ON CONFLICT (<attribute_31>, valid_from, recorded_at) DO NOTHING
+    RETURNING id, <attribute_31>
+),
+relationship1_insert AS (
+    INSERT INTO <relationship_1> (
+        id,
+        <entity1_id>,
+        <entity2_id>,
+        valid_from,
+        recorded_at
+    )
+    SELECT 
+        uuidv7(),
+        e1.id,
+        e2.id,
+        NOW(),
+        NOW()
+    FROM entity1_insert e1
+    JOIN <source_table> s ON (e1.<attribute_11> = s.col1 AND e1.<attribute_12> = s.col2 AND e1.<attribute_13> = s.col3)
+    JOIN entity2_insert e2 ON (e2.<attribute_21> = s.col4 AND e2.<attribute_22> = s.col5)
+    WHERE <condition>
+    ON CONFLICT (<entity1_id>, <entity2_id>, valid_from, recorded_at) DO NOTHING
+    RETURNING id, <entity1_id>, <entity2_id>
+),
+relationship2_insert AS (
+    INSERT INTO <relationship_2> (
+        id,
+        <entity2_id>,
+        <entity3_id>,
+        valid_from,
+        recorded_at
+    )
+    SELECT 
+        uuidv7(),
+        e2.id,
+        e3.id,
+        NOW(),
+        NOW()
+    FROM entity2_insert e2
+    JOIN <source_table> s ON (e2.<attribute_21> = s.col4 AND e2.<attribute_22> = s.col5)
+    JOIN entity3_insert e3 ON (e3.<attribute_31> = s.col6)
+    WHERE <condition>
+    ON CONFLICT (<entity2_id>, <entity3_id>, valid_from, recorded_at) DO NOTHING
+    RETURNING id, <entity2_id>, <entity3_id>
+)
+SELECT 
+    'entity1' AS table_name, 
+    COUNT(*) AS inserted_rows 
+FROM entity1_insert
+UNION ALL
+SELECT 
+    'entity2' AS table_name, 
+    COUNT(*) AS inserted_rows 
+FROM entity2_insert
+UNION ALL
+SELECT 
+    'entity3' AS table_name, 
+    COUNT(*) AS inserted_rows 
+FROM entity3_insert
+UNION ALL
+SELECT 
+    'relationship_1' AS table_name, 
+    COUNT(*) AS inserted_rows 
+FROM relationship1_insert
+UNION ALL
+SELECT 
+    'relationship_2' AS table_name, 
+    COUNT(*) AS inserted_rows 
+FROM relationship2_insert;
 
 
 ```
