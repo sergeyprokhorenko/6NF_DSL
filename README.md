@@ -239,7 +239,7 @@ RELATIONSHIPS
     <relationship_1>, --OF <entity1>, <entity2>
     <relationship_2>, --OF <entity2>, <entity3>
     etc.
-FROM <source_table> VALID FROM <timestamp_column>
+FROM <source_table> VALID FROM <valid_from>
 WHERE <condition>;
 
 
