@@ -242,7 +242,7 @@ FROM (
         AND recorded_at <= <last_recorded_before>
 ) 
 WHERE rn = 1
-ORDER BY relationship.id;
+ORDER BY <relationship>.id;
 
 ```
 
