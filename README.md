@@ -18,7 +18,7 @@
 
 [Sixth Normal Form (6NF)](https://en.wikipedia.org/wiki/Sixth_normal_form) plays a crucial role in [data warehouses (DWH)](https://en.wikipedia.org/wiki/Data_warehouse) by breaking data down into its smallest temporal parts, enabling accurate tracking of historical and bitemporal details — capturing not only when events actually occurred but also when they were recorded in the system. 6NF easily adapts to changes in data structure without modifying existing records, reducing the volume of data that needs to be processed during updates and queries.
 
-Here is a new, concise, Excel-friendly and autogeneratable [domain-specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) for a [bitemporal](https://en.wikipedia.org/wiki/Bitemporal_modeling) sixth normal form (6NF) data warehouse (DWH) with [UUIDv7](https://datatracker.ietf.org/doc/html/rfc9562#name-uuid-version-7) primary keys, along with equivalent PostgreSQL 18 SQL code and EBNF.
+Here is a new, concise, Excel-friendly and autogeneratable [domain-specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) for a [bitemporal](https://en.wikipedia.org/wiki/Bitemporal_modeling) sixth normal form (6NF) data warehouse (DWH) with [UUIDv7](https://medium.com/@sergeyprokhorenko777/what-may-surprise-you-about-uuidv7-c05303f90af9) primary keys, along with equivalent PostgreSQL 18 SQL code and EBNF.
 
 This project is inspired by [Anchor Modeling](https://en.wikipedia.org/wiki/Anchor_modeling), [Data Vault](https://en.wikipedia.org/wiki/Data_vault_modeling) and [Activity Schema](https://www.activityschema.com/).
 
