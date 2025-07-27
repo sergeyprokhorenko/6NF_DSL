@@ -16,7 +16,7 @@
 
 ## 1. Introduction
 
-Here is a concise, Excel-friendly and autogeneratable [domain-specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) for a [bitemporal](https://en.wikipedia.org/wiki/Bitemporal_modeling) [sixth normal form (6NF)](https://en.wikipedia.org/wiki/Sixth_normal_form) [data warehouse (DWH)](https://en.wikipedia.org/wiki/Data_warehouse) with [UUIDv7](https://datatracker.ietf.org/doc/html/rfc9562#name-uuid-version-7) primary keys, along with equivalent PostgreSQL 18 SQL code.
+Here is a new, concise, Excel-friendly and autogeneratable [domain-specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) for a [bitemporal](https://en.wikipedia.org/wiki/Bitemporal_modeling) [sixth normal form (6NF)](https://en.wikipedia.org/wiki/Sixth_normal_form) [data warehouse (DWH)](https://en.wikipedia.org/wiki/Data_warehouse) with [UUIDv7](https://datatracker.ietf.org/doc/html/rfc9562#name-uuid-version-7) primary keys, along with equivalent PostgreSQL 18 SQL code.
 
 This project is inspired by [Anchor Modeling](https://en.wikipedia.org/wiki/Anchor_modeling), [Data Vault](https://en.wikipedia.org/wiki/Data_vault_modeling) and [Activity Schema](https://www.activityschema.com/).
 
