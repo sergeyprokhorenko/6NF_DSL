@@ -1,23 +1,27 @@
 # DSL for Bitemporal Sixth Normal Form with UUIDv7
 
+## Table of Contents
+[1. Introduction](#1-introduction)  
+[2. Create Entity](#2-create-entity)  
+[3. Create Reference](#3-create-reference)  
+[4. Create Simple Attribute](#4-create-simple-attribute)  
+[5. Create Attribute with Reference](#5-create-attribute-with-reference)  
+[6. Create Struct of Attributes](#6-create-struct-of-attributes)  
+[7. Create Relationship](#7-create-relationship)  
+[8. Entity and Its Attributes Snapshot Query](#8-entity-and-its-attributes-snapshot-query)  
+[9. Relationship Snapshot Query](#9-relationship-snapshot-query)  
+[10. Table Normalization Query](#10-table-normalization-query)  
+[11. EBNF in yacc/bison style](#11-ebnf-in-yacc-bison-style)  
+
+
+## 1. Introduction
+
 Here is a concise, Excel-friendly and autogeneratable [domain-specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) for a [bitemporal](https://en.wikipedia.org/wiki/Bitemporal_modeling) [sixth normal form (6NF)](https://en.wikipedia.org/wiki/Sixth_normal_form) [data warehouse (DWH)](https://en.wikipedia.org/wiki/Data_warehouse) with [UUIDv7](https://datatracker.ietf.org/doc/html/rfc9562#name-uuid-version-7) primary keys, along with equivalent PostgreSQL 18 SQL code.
 
 This project is inspired by [Anchor Modeling](https://en.wikipedia.org/wiki/Anchor_modeling), [Data Vault](https://en.wikipedia.org/wiki/Data_vault_modeling) and [Activity Schema](https://www.activityschema.com/).
 
-## Table of Contents
 
-[1. Create Entity](#1-create-entity)  
-[2. Create Reference](#2-create-reference)  
-[3. Create Simple Attribute](#3-create-simple-attribute)  
-[4. Create Attribute with Reference](#4-create-attribute-with-reference)  
-[5. Create Struct of Attributes](#5-create-struct-of-attributes)  
-[6. Create Relationship](#6-create-relationship)  
-[7. Entity and Its Attributes Snapshot Query](#7-entity-and-its-attributes-snapshot-query)  
-[8. Relationship Snapshot Query](#8-relationship-snapshot-query)  
-[9. Table Normalization Query](#9-table-normalization-query)  
-
-
-## 1. Create Entity
+## 2. Create Entity
 
 ```sql
 
@@ -37,7 +41,7 @@ CREATE TABLE <entity> (
 
 ```
 
-## 2. Create Reference
+## 3. Create Reference
 Use a Reference with caution because it is not temporal. It is safer to use Entity and Simple Attribute.
 
 ```sql
@@ -60,7 +64,7 @@ CREATE TABLE <reference> (
 
 ```
 
-## 3. Create Simple Attribute
+## 4. Create Simple Attribute
 
 ```sql
 
@@ -81,7 +85,7 @@ CREATE TABLE <attribute> (
 
 ```
 
-## 4. Create Attribute with Reference
+## 5. Create Attribute with Reference
 
 ```sql
 
@@ -102,7 +106,7 @@ CREATE TABLE <attribute> (
 
 ```
 
-## 5. Create Struct of Attributes
+## 6. Create Struct of Attributes
 Use a Struct of Attributes for **input** attributes that change simultaneously - such as document or message attributes - or for **output** attributes of Activity Stream or other normalized data mart. For large numbers of attributes, the jsonb data type is recommended.
 
 ```sql
@@ -133,7 +137,7 @@ CREATE TABLE <struct> (
 
 ```
 
-## 6. Create Relationship
+## 7. Create Relationship
 
 ```sql
 
@@ -172,7 +176,7 @@ CREATE TABLE <relationship> (
 
 ```
 
-## 7. Entity and Its Attributes Snapshot Query
+## 8. Entity and Its Attributes Snapshot Query
 The primary key entity_id is preserved.
 Structs of Attributes can be used as sources alongside Simple Attributes and Attributes with Reference.
 
@@ -226,7 +230,7 @@ ORDER BY <entity>.id;
 
 ```
 
-## 8. Relationship Snapshot Query
+## 9. Relationship Snapshot Query
 
 ```sql
 
@@ -276,7 +280,7 @@ ORDER BY <relationship>.id;
 ```
 
 
-## 9. Table Normalization Query
+## 10. Table Normalization Query
 
 ```sql
 
@@ -400,4 +404,19 @@ COMMIT;
 
 
 ```
+
+## 11. EBNF in yacc/bison style
+
+
+
+
+
+
+
+
+
+
+
+
+
 
