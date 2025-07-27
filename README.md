@@ -25,12 +25,6 @@ This project is inspired by [Anchor Modeling](https://en.wikipedia.org/wiki/Anch
 
 ```sql
 
--- EBNF
-<create-entity> ::= "CREATE" "ENTITY" <identifier> ";"
-<identifier>    ::= <letter> { <letter> | <digit> | "_" }
-<letter>        ::= "A" … "Z" | "a" … "z"
-<digit>         ::= "0" … "9"
-
 -- DSL
 CREATE ENTITY <entity>;
 
@@ -46,13 +40,6 @@ Use a Reference with caution because it is not temporal. It is safer to use Enti
 
 ```sql
 
--- EBNF
-<create-reference> ::= "CREATE" "REFERENCE" <identifier> "TYPE" <data-type> ";"
-<data-type>        ::= "UUID" | "INT" | "BIGINT" | "TEXT" | "VARCHAR" "(" <integer> ")" 
-                    | "NUMERIC" "(" <integer> "," <integer> ")" 
-                    | "TIMESTAMPTZ"
-<integer>          ::= <digit> { <digit> }
-
 -- DSL
 CREATE REFERENCE <reference> TYPE <data_type>;
 
@@ -67,9 +54,6 @@ CREATE TABLE <reference> (
 ## 4. Create Simple Attribute
 
 ```sql
-
--- EBNF
-<create-attribute> ::= "CREATE" "ATTRIBUTE" <identifier> "FOR" "ENTITY" <identifier> "TYPE" <data-type> ";"
 
 -- DSL
 CREATE ATTRIBUTE <attribute> FOR ENTITY <entity> TYPE <data_type>;
@@ -89,9 +73,6 @@ CREATE TABLE <attribute> (
 
 ```sql
 
--- EBNF
-<create-attribute-ref> ::= "CREATE" "ATTRIBUTE" <identifier> "FOR" "ENTITY" <identifier> "REFERENCE" <identifier> ";"
-
 -- DSL
 CREATE ATTRIBUTE <attribute> FOR ENTITY <entity> REFERENCE <reference>;
 
@@ -110,12 +91,6 @@ CREATE TABLE <attribute> (
 Use a Struct of Attributes for **input** attributes that change simultaneously - such as document or message attributes - or for **output** attributes of Activity Stream or other normalized data mart. For large numbers of attributes, the jsonb data type is recommended.
 
 ```sql
-
--- EBNF
-<create-struct> ::= "CREATE" "STRUCT" <identifier> "FOR" "ENTITY" <identifier> "(" <struct-def-list> ")" ";"
-<struct-def-list>   ::= <struct-def> { "," <struct-def> }
-<struct-def>        ::= <identifier> "TYPE" <data-type>
-                     | <identifier> "REFERENCE" <identifier>
 
 -- DSL
 CREATE STRUCT <struct> FOR ENTITY <entity> (
@@ -141,9 +116,6 @@ CREATE TABLE <struct> (
 
 ```sql
 
--- EBNF
-<create-relationship> ::= "CREATE" "RELATIONSHIP" <identifier> "OF" <entity-list> ";"
-<entity-list>         ::= <identifier> { "," <identifier> }
 
 -- DSL
 CREATE RELATIONSHIP <relationship> OF
@@ -182,12 +154,6 @@ Structs of Attributes can be used as sources alongside Simple Attributes and Att
 
 ```sql
 
--- EBNF
-<select-attributes> ::= "SELECT" <selection-list> "FROM" "ATTRIBUTES" "OF" <identifier>
-                        "VALID" "AT" <timestamp> "LAST" "RECORDED" "BEFORE" <timestamp> ";"
-<selection-list>     ::= "*" | <identifier> { "," <identifier> }
-<timestamp>          ::= "'" <iso-8601> "'"
-<iso-8601>           ::= <digit>{4} "-" <digit>{2} "-" <digit>{2} "T" <digit>{2} ":" <digit>{2} ":" <digit>{2} "Z"
 
 -- DSL
 SELECT <attributes> FROM ATTRIBUTES OF <entity> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
@@ -233,10 +199,6 @@ ORDER BY <entity>.id;
 ## 9. Relationship Snapshot Query
 
 ```sql
-
--- EBNF
-<select-relationship> ::= "SELECT" <selection-list> "FROM" <identifier>
-                          "VALID" "AT" <timestamp> "LAST" "RECORDED" "BEFORE" <timestamp> ";"
 
 -- DSL
 SELECT <entities_and_references> FROM <relationship> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
@@ -284,22 +246,6 @@ ORDER BY <relationship>.id;
 
 ```sql
 
--- EBNF
-<normalize>          ::= "NORMALIZE" <normalize-into-list> "RELATIONSHIPS" <relationship-list>
-                         "VALID" "FROM" <identifier> "FROM" <identifier> [ "WHERE" <condition> ] ";"
-<normalize-into-list>::= <into-item> { <newline> <into-item> }
-<into-item>         ::= "INTO" <identifier> "(" <identifier-list> ")" "SELECT" <column-list> "FROM" <identifier>
-<identifier-list>   ::= <identifier> { "," <identifier> }
-<column-list>       ::= <identifier> { "," <identifier> }
-<relationship-list> ::= <identifier> { "," <identifier> }
-<condition>         ::= <expression>
-<expression>        ::= <term> { ( "=" | "<" | ">" | "<=" | ">=" | "<>" ) <term> }
-<term>              ::= <identifier> | <string> | <number>
-<string>            ::= "'" { <any-char> } "'"
-<number>            ::= <digit> { <digit> } [ "." <digit> { <digit> } ]
-<newline>           ::= "\n"
-<any-char>          ::= <printable>
-<printable>         ::= code of any displayed character
 
 -- DSL
 NORMALIZE
