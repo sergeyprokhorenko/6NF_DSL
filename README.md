@@ -478,15 +478,15 @@ create_attribute_ref
 ### Create Struct of Attributes
 ```ebnf
 create_struct
-    : 'CREATE' 'STRUCT' identifier 'FOR' 'ENTITY' identifier '(' struct_def_list ')' ';'
+    : 'CREATE' 'STRUCT' identifier 'FOR' 'ENTITY' identifier '(' struct_item_list ')' ';'
     ;
 
-struct_def_list
-    : struct_def
-    | struct_def ',' struct_def_list
+struct_item_list
+    : struct_item
+    | struct_item ',' struct_item_list
     ;
 
-struct_def
+struct_item
     : identifier 'TYPE' data_type
     | identifier 'REFERENCE' identifier
     ;
