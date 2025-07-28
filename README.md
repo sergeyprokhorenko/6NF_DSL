@@ -146,7 +146,7 @@ CREATE TABLE <relationship> (
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
     PRIMARY KEY (
         <entity_or_reference_1_id>, 
-        <entity_or_kreference_2_id>,
+        <entity_or_reference_2_id>,
         -- etc.
         <entity_or_reference_n_id>,
         valid_from,
