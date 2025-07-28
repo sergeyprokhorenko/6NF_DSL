@@ -1,17 +1,17 @@
 # DSL for Bitemporal Sixth Normal Form with UUIDv7
 
 ## Table of Contents
-1. [1. Introduction](#1-introduction)  
-2. [2. Create Entity](#2-create-entity)  
-3. [3. Create Reference](#3-create-reference)  
-4. [4. Create Simple Attribute](#4-create-simple-attribute)  
-5. [5. Create Attribute with Reference](#5-create-attribute-with-reference)  
-6. [6. Create Struct of Attributes](#6-create-struct-of-attributes)  
-7. [7. Create Relationship](#7-create-relationship)  
-8. [8. Attributes Snapshot](#8-attributes-snapshot)  
-9. [9. Relationship Snapshot](#9-relationship-snapshot)  
-10. [10. Table Normalization](#10-table-normalization)  
-11. [11. EBNF Grammar](#11-ebnf-grammar)
+1. [Introduction](#1-introduction)  
+2. [Create Entity](#2-create-entity)  
+3. [Create Reference](#3-create-reference)  
+4. [Create Simple Attribute](#4-create-simple-attribute)  
+5. [Create Attribute with Reference](#5-create-attribute-with-reference)  
+6. [Create Struct of Attributes](#6-create-struct-of-attributes)  
+7. [Create Relationship](#7-create-relationship)  
+8. [Attributes Snapshot](#8-attributes-snapshot)  
+9. [Relationship Snapshot](#9-relationship-snapshot)  
+10. [Table Normalization](#10-table-normalization)  
+11. [EBNF Grammar](#11-ebnf-grammar)
 
 
 ## 1. Introduction
