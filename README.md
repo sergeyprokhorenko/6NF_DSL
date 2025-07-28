@@ -359,7 +359,7 @@ COMMIT;
 
 ```
 
-## 11. EBNF  Grammar
+## 11. EBNF Grammar
 
 ### Terminals: basic characters and literals
 
