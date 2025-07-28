@@ -361,7 +361,7 @@ COMMIT;
 
 ## 11. EBNF Grammar
 
-### Terminals: basic characters and literals
+### Terminals: Basic Characters and Literals
 
 letter
     : 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M'
@@ -387,7 +387,7 @@ number
     ;
 
 
-### Identifier and related lists
+### Identifier and Related Lists
 
 identifier
     : letter (letter | digit | '_')*
