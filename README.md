@@ -11,7 +11,7 @@
 [8. Attributes Snapshot](#8-attributes-snapshot)  
 [9. Relationship Snapshot](#9-relationship-snapshot)  
 [10. Table Normalization](#10-table-normalization-query)  
-[11. EBNF in Yacc and Bison Style](#11-ebnf-in-yacc-and-bison-style)  
+[11. EBNF Grammar](#11-ebnf-grammar)  
 
 
 ## 1. Introduction
@@ -359,11 +359,10 @@ COMMIT;
 
 ```
 
-## 11. EBNF in Yacc/Bison Style
+## 11. EBNF  Grammar
 
-### Common nonterminals used in multiple subsections
+/* Terminals */
 
-```ebnf
 letter
     : 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M'
     | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'
@@ -375,123 +374,55 @@ digit
     : '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
     ;
 
-identifier
-    : letter identifier_rest
-    ;
-
-identifier_rest
-    : /* empty */
-    | identifier_rest_char identifier_rest
-    ;
-
-identifier_rest_char
-    : letter
-    | digit
-    | '_'
-    ;
-
-integer
-    : digit integer_rest
-    ;
-
-integer_rest
-    : /* empty */
-    | digit integer_rest
-    ;
-
 string
-    : '\'' string_characters '\''
-    ;
-
-string_characters
-    : /* empty */
-    | string_characters string_character
-    ;
-
-string_character
-    : /* any printable character except single quote */
+    : '\'' [^']* '\''
     ;
 
 timestamp
-    : '\'' iso_8601 '\''
+    : string
     ;
 
-iso_8601
-    : digit digit digit digit '-' digit digit '-' digit digit 'T' digit digit ':' digit digit ':' digit digit 'Z'
+number
+    : digit+
     ;
 
-selection_list
-    : '*'
-    | identifier selection_list_rest
+
+/* Identifier */
+
+identifier
+    : letter (letter | digit | '_')*
     ;
 
-selection_list_rest
-    : /* empty */
-    | ',' selection_list
-    ;
 
-identifier_list
-    : identifier identifier_list_rest
-    ;
+/* 2. Create Entity */
 
-identifier_list_rest
-    : /* empty */
-    | ',' identifier_list
-    ;
-
-newline
-    : '\n'
-    ;
-
-```
-
-### Create Entity
-```ebnf
 create_entity
     : 'CREATE' 'ENTITY' identifier ';'
     ;
 
-```
-### Create Reference
-```ebnf
+/* 3. Create Reference */
+
 create_reference
     : 'CREATE' 'REFERENCE' identifier 'TYPE' data_type ';'
     ;
 
-data_type
-    : 'UUID'
-    | 'INT'
-    | 'BIGINT'
-    | 'TEXT'
-    | 'VARCHAR' '(' integer ')'
-    | 'NUMERIC' '(' integer ',' integer ')'
-    | 'TIMESTAMPTZ'
-    ;
+/* 4. Create Simple Attribute */
+/* 5. Create Attribute with Reference */
 
-```
-### Create Simple Attribute
-```ebnf
 create_attribute
     : 'CREATE' 'ATTRIBUTE' identifier 'FOR' 'ENTITY' identifier 'TYPE' data_type ';'
+    | 'CREATE' 'ATTRIBUTE' identifier 'FOR' 'ENTITY' identifier 'REFERENCE' identifier ';'
     ;
 
-```
-### Create Attribute with Reference
-```ebnf
-create_attribute_ref
-    : 'CREATE' 'ATTRIBUTE' identifier 'FOR' 'ENTITY' identifier 'REFERENCE' identifier ';'
-    ;
+/* 6. Create Struct of Attributes */
 
-```
-### Create Struct of Attributes
-```ebnf
 create_struct
-    : 'CREATE' 'STRUCT' identifier 'FOR' 'ENTITY' identifier '(' struct_item_list ')' ';'
+    : 'CREATE' 'STRUCT' identifier 'FOR' 'ENTITY' identifier '(' struct_items ')' ';'
     ;
 
-struct_item_list
+struct_items
     : struct_item
-    | struct_item ',' struct_item_list
+    | struct_items ',' struct_item
     ;
 
 struct_item
@@ -499,62 +430,43 @@ struct_item
     | identifier 'REFERENCE' identifier
     ;
 
-```
-### Create Relationship
-```ebnf
+/* 7. Create Relationship */
+
 create_relationship
-    : 'CREATE' 'RELATIONSHIP' identifier 'OF' entity_list ';'
+    : 'CREATE' 'RELATIONSHIP' identifier 'OF' identifier_list ';'
     ;
 
-entity_list
-    : identifier
-    | identifier ',' entity_list
-    ;
+/* 8. Attributes Snapshot */
 
-```
-### Attributes Snapshot
-```ebnf
 select_attributes
-    : 'SELECT' selection_list 'FROM' 'ATTRIBUTES' 'OF' identifier
+    : 'SELECT' selection 'FROM' 'ATTRIBUTES' 'OF' identifier
       'VALID' 'AT' timestamp 'LAST' 'RECORDED' 'BEFORE' timestamp ';'
     ;
 
-```
-### Relationship Snapshot
-```ebnf
+/* 9. Relationship Snapshot */
+
 select_relationship
-    : 'SELECT' selection_list 'FROM' identifier
+    : 'SELECT' selection 'FROM' identifier
       'VALID' 'AT' timestamp 'LAST' 'RECORDED' 'BEFORE' timestamp ';'
     ;
 
-```
-### Table Normalization
-```ebnf
+/* 10. Table Normalization */
+
 normalize
-    : 'NORMALIZE' normalize_into_list 'RELATIONSHIPS' relationship_list
-      'VALID' 'FROM' identifier 'FROM' identifier normalize_where_opt ';'
+    : 'NORMALIZE' into_clauses 'RELATIONSHIPS' identifier_list
+      'VALID' 'FROM' identifier 'FROM' identifier where_clause ';'
     ;
 
-normalize_into_list
-    : into_item
-    | into_item newline normalize_into_list
+into_clauses
+    : into_clause
+    | into_clauses into_clause
     ;
 
-into_item
-    : 'INTO' identifier '(' identifier_list ')' 'SELECT' column_list 'FROM' identifier
+into_clause
+    : 'INTO' identifier '(' identifier_list ')' 'SELECT' identifier_list 'FROM' identifier
     ;
 
-column_list
-    : identifier
-    | identifier ',' column_list
-    ;
-
-relationship_list
-    : identifier
-    | identifier ',' relationship_list
-    ;
-
-normalize_where_opt
+where_clause
     : /* empty */
     | 'WHERE' condition
     ;
@@ -582,17 +494,31 @@ term
     | number
     ;
 
-number
-    : digit number_rest
+
+/* 11. Data Types */
+
+data_type
+    : 'UUID'
+    | 'INT'
+    | 'BIGINT'
+    | 'TEXT'
+    | 'VARCHAR' '(' number ')'
+    | 'NUMERIC' '(' number ',' number ')'
+    | 'TIMESTAMPTZ'
     ;
 
-number_rest
-    : /* empty */
-    | digit number_rest
-    | '.' digit number_rest
+
+/* Auxiliary */
+
+identifier_list
+    : identifier
+    | identifier_list ',' identifier
     ;
 
-```
+selection
+    : '*'
+    | identifier_list
+    ;
 
 
 
