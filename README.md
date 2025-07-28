@@ -69,7 +69,7 @@ CREATE ATTRIBUTE <attribute> FOR ENTITY <entity> TYPE <data_type>;
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute> (
     entity_id UUID NOT NULL REFERENCES <entity>(id),
-    value <data_type> UNIQUE NOT NULL,
+    value <data_type> NOT NULL,
     valid_from TIMESTAMPTZ DEFAULT NOW(),
     recorded_at TIMESTAMPTZ DEFAULT NOW(),
     PRIMARY KEY (entity_id, valid_from, recorded_at)
