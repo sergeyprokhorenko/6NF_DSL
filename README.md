@@ -10,7 +10,7 @@
 [7. Create Relationship](#7-create-relationship)  
 [8. Attributes Snapshot](#8-attributes-snapshot)  
 [9. Relationship Snapshot](#9-relationship-snapshot)  
-[10. Table Normalization](#10-table-normalization-query)  
+[10. Table Normalization](#10-table-normalization)  
 [11. EBNF Grammar](#11-ebnf-grammar)  
 
 
