@@ -361,7 +361,7 @@ COMMIT;
 
 ## 11. EBNF  Grammar
 
-/* Terminals */
+### Terminals
 
 letter
     : 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M'
@@ -387,34 +387,33 @@ number
     ;
 
 
-/* Identifier */
+### Identifier
 
 identifier
     : letter (letter | digit | '_')*
     ;
 
 
-/* 2. Create Entity */
+### 2. Create Entity
 
 create_entity
     : 'CREATE' 'ENTITY' identifier ';'
     ;
 
-/* 3. Create Reference */
+### 3. Create Reference
 
 create_reference
     : 'CREATE' 'REFERENCE' identifier 'TYPE' data_type ';'
     ;
 
-/* 4. Create Simple Attribute */
-/* 5. Create Attribute with Reference */
+### 4-5. Create Attribute
 
 create_attribute
     : 'CREATE' 'ATTRIBUTE' identifier 'FOR' 'ENTITY' identifier 'TYPE' data_type ';'
     | 'CREATE' 'ATTRIBUTE' identifier 'FOR' 'ENTITY' identifier 'REFERENCE' identifier ';'
     ;
 
-/* 6. Create Struct of Attributes */
+### 6. Create Struct of Attributes
 
 create_struct
     : 'CREATE' 'STRUCT' identifier 'FOR' 'ENTITY' identifier '(' struct_items ')' ';'
@@ -430,27 +429,27 @@ struct_item
     | identifier 'REFERENCE' identifier
     ;
 
-/* 7. Create Relationship */
+### 7. Create Relationship
 
 create_relationship
     : 'CREATE' 'RELATIONSHIP' identifier 'OF' identifier_list ';'
     ;
 
-/* 8. Attributes Snapshot */
+### 8. Attributes Snapshot
 
 select_attributes
     : 'SELECT' selection 'FROM' 'ATTRIBUTES' 'OF' identifier
       'VALID' 'AT' timestamp 'LAST' 'RECORDED' 'BEFORE' timestamp ';'
     ;
 
-/* 9. Relationship Snapshot */
+### 9. Relationship Snapshot
 
 select_relationship
     : 'SELECT' selection 'FROM' identifier
       'VALID' 'AT' timestamp 'LAST' 'RECORDED' 'BEFORE' timestamp ';'
     ;
 
-/* 10. Table Normalization */
+### 10. Table Normalization
 
 normalize
     : 'NORMALIZE' into_clauses 'RELATIONSHIPS' identifier_list
@@ -495,7 +494,7 @@ term
     ;
 
 
-/* 11. Data Types */
+### Data Types
 
 data_type
     : 'UUID'
@@ -508,7 +507,7 @@ data_type
     ;
 
 
-/* Auxiliary */
+### Auxiliary
 
 identifier_list
     : identifier
