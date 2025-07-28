@@ -387,10 +387,30 @@ number
     ;
 
 
-### Identifier
+### Nonterminals
+
+data_type
+    : 'UUID'
+    | 'INT'
+    | 'BIGINT'
+    | 'TEXT'
+    | 'VARCHAR' '(' number ')'
+    | 'NUMERIC' '(' number ',' number ')'
+    | 'TIMESTAMPTZ'
+    ;
 
 identifier
     : letter (letter | digit | '_')*
+    ;
+
+identifier_list
+    : identifier
+    | identifier_list ',' identifier
+    ;
+
+selection
+    : '*'
+    | identifier_list
     ;
 
 
@@ -496,28 +516,7 @@ term
 
 ### Data Types
 
-data_type
-    : 'UUID'
-    | 'INT'
-    | 'BIGINT'
-    | 'TEXT'
-    | 'VARCHAR' '(' number ')'
-    | 'NUMERIC' '(' number ',' number ')'
-    | 'TIMESTAMPTZ'
-    ;
 
-
-### Auxiliary
-
-identifier_list
-    : identifier
-    | identifier_list ',' identifier
-    ;
-
-selection
-    : '*'
-    | identifier_list
-    ;
 
 
 
