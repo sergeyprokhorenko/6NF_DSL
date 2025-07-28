@@ -361,7 +361,7 @@ COMMIT;
 
 ## 11. EBNF  Grammar
 
-### Terminals
+### Terminals: basic characters and literals
 
 letter
     : 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M'
@@ -387,17 +387,7 @@ number
     ;
 
 
-### Nonterminals
-
-data_type
-    : 'UUID'
-    | 'INT'
-    | 'BIGINT'
-    | 'TEXT'
-    | 'VARCHAR' '(' number ')'
-    | 'NUMERIC' '(' number ',' number ')'
-    | 'TIMESTAMPTZ'
-    ;
+### Identifier and related lists
 
 identifier
     : letter (letter | digit | '_')*
@@ -414,11 +404,25 @@ selection
     ;
 
 
+### Data Types
+
+data_type
+    : 'UUID'
+    | 'INT'
+    | 'BIGINT'
+    | 'TEXT'
+    | 'VARCHAR' '(' number ')'
+    | 'NUMERIC' '(' number ',' number ')'
+    | 'TIMESTAMPTZ'
+    ;
+
+
 ### 2. Create Entity
 
 create_entity
     : 'CREATE' 'ENTITY' identifier ';'
     ;
+
 
 ### 3. Create Reference
 
@@ -426,12 +430,14 @@ create_reference
     : 'CREATE' 'REFERENCE' identifier 'TYPE' data_type ';'
     ;
 
-### 4-5. Create Attribute
+
+### 4 - 5. Create Attribute
 
 create_attribute
     : 'CREATE' 'ATTRIBUTE' identifier 'FOR' 'ENTITY' identifier 'TYPE' data_type ';'
     | 'CREATE' 'ATTRIBUTE' identifier 'FOR' 'ENTITY' identifier 'REFERENCE' identifier ';'
     ;
+
 
 ### 6. Create Struct of Attributes
 
@@ -449,11 +455,13 @@ struct_item
     | identifier 'REFERENCE' identifier
     ;
 
+
 ### 7. Create Relationship
 
 create_relationship
     : 'CREATE' 'RELATIONSHIP' identifier 'OF' identifier_list ';'
     ;
+
 
 ### 8. Attributes Snapshot
 
@@ -462,12 +470,14 @@ select_attributes
       'VALID' 'AT' timestamp 'LAST' 'RECORDED' 'BEFORE' timestamp ';'
     ;
 
+
 ### 9. Relationship Snapshot
 
 select_relationship
     : 'SELECT' selection 'FROM' identifier
       'VALID' 'AT' timestamp 'LAST' 'RECORDED' 'BEFORE' timestamp ';'
     ;
+
 
 ### 10. Table Normalization
 
@@ -512,13 +522,5 @@ term
     | string
     | number
     ;
-
-
-
-
-
-
-
-
 
 
