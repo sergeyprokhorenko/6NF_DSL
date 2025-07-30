@@ -49,7 +49,7 @@ Use a Reference with caution because it is not temporal. It is safer to use Enti
 ```sql
 
 -- DSL
-CREATE REFERENCE <reference> TYPE <data_type>;
+CREATE REFERENCE <reference> <data_type>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <reference> (
@@ -102,7 +102,7 @@ Use a Struct of Attributes for **input** attributes that change simultaneously -
 
 -- DSL
 CREATE STRUCT <struct> FOR ENTITY <entity> (
-<attribute> TYPE <data_type>,
+<attribute> <data_type>,
 -- etc.
 <attribute> REFERENCE <reference>
 );
@@ -450,7 +450,7 @@ create_entity
 ### 3. Create Reference
 
 create_reference
-    : 'CREATE' 'REFERENCE' identifier 'TYPE' data_type ';'
+    : 'CREATE' 'REFERENCE' identifier data_type ';'
     ;
 
 
@@ -474,7 +474,7 @@ struct_items
     ;
 
 struct_item
-    : identifier 'TYPE' data_type
+    : identifier data_type
     | identifier 'REFERENCE' identifier
     ;
 
