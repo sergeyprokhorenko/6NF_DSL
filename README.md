@@ -64,7 +64,7 @@ CREATE TABLE <reference> (
 ```sql
 
 -- DSL
-CREATE ATTRIBUTE <attribute> FOR ENTITY <entity> TYPE <data_type>;
+ENTITY <entity> HAS ATTRIBUTE <attribute> <data_type>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute> (
@@ -82,7 +82,7 @@ CREATE TABLE <attribute> (
 ```sql
 
 -- DSL
-CREATE ATTRIBUTE <attribute> FOR ENTITY <entity> REFERENCE <reference>;
+ENTITY <entity> HAS ATTRIBUTE <attribute> REFERENCE <reference>;
 
 -- Equivalent PostgreSQL 18 SQL
 CREATE TABLE <attribute> (
@@ -434,8 +434,8 @@ create_reference
 ### 4 - 5. Create Attribute
 
 create_attribute
-    : 'CREATE' 'ATTRIBUTE' identifier 'FOR' 'ENTITY' identifier 'TYPE' data_type ';'
-    | 'CREATE' 'ATTRIBUTE' identifier 'FOR' 'ENTITY' identifier 'REFERENCE' identifier ';'
+    : 'ENTITY' identifier 'HAS' 'ATTRIBUTE' identifier data_type ';'
+    | 'ENTITY' identifier 'HAS' 'ATTRIBUTE' identifier 'REFERENCE' identifier ';'
     ;
 
 
