@@ -32,14 +32,14 @@ The author has no opportunity to develop a compiler for this DSL, and relies on 
 
 ## 2. Approximate Correspondence of Terms
 
-| DSL | Anchor Modeling | Data Vault |
-|--|--|--|
-| Entity | Anchor | Hub |
-| Reference | Knot | - |
-| Simple Attribute | Attribute | Satellite |
-| Attribute with Reference| Knotted Attribute | - |
-| Struct of Attributes| - | Satellite |
-| Relationship | Tie | Link |
+| DSL | ERD | Anchor Modeling | Data Vault |
+|--|--|--|--|
+| Entity | Entity | Anchor | Hub |
+| Reference | - | Knot | - |
+| Simple Attribute | Attribute | Attribute | Satellite |
+| Attribute with Reference | - | Knotted Attribute | - |
+| Struct of Attributes | - | - | Satellite |
+| Relationship | Relationship | Tie | Link |
 
 
 ## 3. Create Entity
