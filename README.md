@@ -162,7 +162,6 @@ Structs of Attributes can be used as sources alongside Simple Attributes and Att
 
 ```sql
 
-
 -- DSL
 SELECT <attributes> FROM ATTRIBUTES OF <entity> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
 
@@ -174,32 +173,56 @@ SELECT
     <attribute3>.value
 FROM <entity>
 LEFT JOIN LATERAL (
-    SELECT value 
+    SELECT value
     FROM <attribute1>
     WHERE <attribute1>.entity_id = <entity>.id
       AND <attribute1>.valid_from <= <valid_at>
       AND <attribute1>.recorded_at <= <last_recorded_before>
+      AND NOT EXISTS (
+          SELECT 1
+          FROM <attribute1>
+          WHERE <attribute1>.entity_id = <attribute1>.entity_id
+            AND <attribute1>.valid_from > <attribute1>.valid_from
+            AND <attribute1>.valid_from <= <valid_at>
+            AND <attribute1>.recorded_at <= <last_recorded_before>
+      )
     ORDER BY <attribute1>.valid_from DESC, <attribute1>.recorded_at DESC
     LIMIT 1
-) <attribute1>_result ON true
+) ON true
 LEFT JOIN LATERAL (
-    SELECT value 
+    SELECT value
     FROM <attribute2>
     WHERE <attribute2>.entity_id = <entity>.id
       AND <attribute2>.valid_from <= <valid_at>
       AND <attribute2>.recorded_at <= <last_recorded_before>
+      AND NOT EXISTS (
+          SELECT 1
+          FROM <attribute2>
+          WHERE <attribute2>.entity_id = <attribute2>.entity_id
+            AND <attribute2>.valid_from > <attribute2>.valid_from
+            AND <attribute2>.valid_from <= <valid_at>
+            AND <attribute2>.recorded_at <= <last_recorded_before>
+      )
     ORDER BY <attribute2>.valid_from DESC, <attribute2>.recorded_at DESC
     LIMIT 1
-) <attribute2>_result ON true
+) ON true
 LEFT JOIN LATERAL (
-    SELECT value 
+    SELECT value
     FROM <attribute3>
     WHERE <attribute3>.entity_id = <entity>.id
       AND <attribute3>.valid_from <= <valid_at>
       AND <attribute3>.recorded_at <= <last_recorded_before>
+      AND NOT EXISTS (
+          SELECT 1
+          FROM <attribute3>
+          WHERE <attribute3>.entity_id = <attribute3>.entity_id
+            AND <attribute3>.valid_from > <attribute3>.valid_from
+            AND <attribute3>.valid_from <= <valid_at>
+            AND <attribute3>.recorded_at <= <last_recorded_before>
+      )
     ORDER BY <attribute3>.valid_from DESC, <attribute3>.recorded_at DESC
     LIMIT 1
-) <attribute3>_result ON true
+) ON true
 ORDER BY <entity>.id;
 
 ```
