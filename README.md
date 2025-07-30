@@ -30,7 +30,7 @@ Artificial intelligence systems should preferably use the syntax of this DSL rat
 The author has no opportunity to develop a compiler for this DSL, and relies on the community.
 
 
-## Approximate Correspondence of Terms
+## 2. Approximate Correspondence of Terms
 
 | DSL | Anchor Modeling | Data Vault |
 |--|--|--|
@@ -42,7 +42,7 @@ The author has no opportunity to develop a compiler for this DSL, and relies on 
 | Relationship | Tie | Link |
 
 
-## 2. Create Entity
+## 3. Create Entity
 
 ```sql
 
@@ -56,7 +56,7 @@ CREATE TABLE <entity> (
 
 ```
 
-## 3. Create Reference
+## 4. Create Reference
 Use a Reference with caution because it is not temporal. It is safer to use Entity and Simple Attribute.
 
 ```sql
@@ -72,7 +72,7 @@ CREATE TABLE <reference> (
 
 ```
 
-## 4. Create Simple Attribute
+## 5. Create Simple Attribute
 
 ```sql
 
@@ -90,7 +90,7 @@ CREATE TABLE <attribute> (
 
 ```
 
-## 5. Create Attribute with Reference
+## 6. Create Attribute with Reference
 
 ```sql
 
@@ -108,7 +108,7 @@ CREATE TABLE <attribute> (
 
 ```
 
-## 6. Create Struct of Attributes
+## 7. Create Struct of Attributes
 Use a Struct of Attributes for **input** attributes that change simultaneously - such as document or message attributes - or for **output** attributes of Activity Stream or other normalized data mart. For large numbers of attributes, the jsonb data type is recommended.
 
 ```sql
@@ -133,7 +133,7 @@ CREATE TABLE <struct> (
 
 ```
 
-## 7. Create Relationship
+## 8. Create Relationship
 
 ```sql
 
@@ -169,7 +169,7 @@ CREATE TABLE <relationship> (
 
 ```
 
-## 8. Attributes Snapshot
+## 9. Attributes Snapshot
 The primary key entity_id is preserved.
 Structs of Attributes can be used as sources alongside Simple Attributes and Attributes with Reference.
 
@@ -240,7 +240,7 @@ ORDER BY <entity>.id;
 
 ```
 
-## 9. Relationship Snapshot
+## 10. Relationship Snapshot
 
 ```sql
 
@@ -286,7 +286,7 @@ ORDER BY <relationship>.id;
 ```
 
 
-## 10. Table Normalization
+## 11. Table Normalization
 
 ```sql
 
@@ -395,7 +395,7 @@ COMMIT;
 
 ```
 
-## 11. EBNF Grammar
+## 12. EBNF Grammar
 
 ### Terminals: Basic Characters and Literals
 
