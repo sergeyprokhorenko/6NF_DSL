@@ -1,8 +1,8 @@
 # DSL for Bitemporal Sixth Normal Form with UUIDv7
 
 ## Table of Contents
-1. [Introduction](#1-introduction)
-2. [Approximate Correspondence of Terms](#2-approximate_correspondence_of_terms)
+1. [Introduction](#1-introduction)  
+2. [Approximate Correspondence of Terms](#2-approximate-correspondence-of-terms)  
 3. [Create Entity](#3-create-entity)  
 4. [Create Reference](#4-create-reference)  
 5. [Create Simple Attribute](#5-create-simple-attribute)  
@@ -12,7 +12,7 @@
 9. [Attributes Snapshot](#9-attributes-snapshot)  
 10. [Relationship Snapshot](#10-relationship-snapshot)  
 11. [Table Normalization](#11-table-normalization)  
-12. [EBNF Grammar](#12-ebnf-grammar)
+12. [EBNF Grammar](#12-ebnf-grammar)  
 
 
 ## 1. Introduction
