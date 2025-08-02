@@ -616,18 +616,18 @@ CREATE RELATIONSHIP entry OF
     description;
 
 ### Attributes Snapshots
--- Get current state of all currencies
+-- Snapshot of attributes of currency
 SELECT * FROM ATTRIBUTES OF currency 
 VALID AT '2024-12-31' 
 LAST RECORDED BEFORE '2025-01-01';
 
--- Get document attributes as of specific date
+-- Snapshot of attributes of date
 SELECT document_number, document_type, document_status 
 FROM ATTRIBUTES OF document 
 VALID AT '2024-06-30'
 LAST RECORDED BEFORE '2024-07-01';
 
--- Get account information for reporting
+-- Snapshot of attributes of account
 SELECT account_code, account_name, account_type
 FROM ATTRIBUTES OF account
 VALID AT '2024-12-31'
