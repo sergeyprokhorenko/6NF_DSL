@@ -574,7 +574,7 @@ CREATE ENTITY document;
 CREATE ENTITY counterparty;
 ```
 
-### Create references
+### Create References
 ```sql
 CREATE REFERENCE amount NUMERIC;  -- positive/negative values indicate debit/credit
 CREATE REFERENCE date TIMESTAMPTZ;
