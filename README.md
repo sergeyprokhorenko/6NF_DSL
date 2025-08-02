@@ -43,17 +43,23 @@ The author has no opportunity to develop a compiler for this DSL, and relies on 
 | Relationship | Relationship | Tie | Link |
 
 
-## 3. Create Entity
+## 3. Create Entities
 
 ```sql
 
 -- DSL
-CREATE ENTITY <entity>;
+CREATE ENTITIES <entity1>, <entity2>, etc.;
 
 -- Equivalent PostgreSQL 18 SQL
-CREATE TABLE <entity> (
+CREATE TABLE <entity1> (
     id UUID PRIMARY KEY DEFAULT uuidv7()
 );
+
+CREATE TABLE <entity2> (
+    id UUID PRIMARY KEY DEFAULT uuidv7()
+);
+
+etc.
 
 ```
 
@@ -454,10 +460,10 @@ data_type
     ;
 ```
 
-### Create Entity
+### Create Entities
 ```ebnf
-create_entity
-    : 'CREATE' 'ENTITY' identifier ';'
+create_entities
+    : 'CREATE' 'ENTITIES' identifier_list ';'
     ;
 ```
 
@@ -568,10 +574,7 @@ term
 
 ### Create Entities
 ```sql
-CREATE ENTITY account;
-CREATE ENTITY currency;
-CREATE ENTITY document;
-CREATE ENTITY counterparty;
+CREATE ENTITIES account, currency, document, counterparty;
 ```
 
 ### Create References
