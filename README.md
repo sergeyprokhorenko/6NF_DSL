@@ -567,7 +567,6 @@ term
 ## 13. DSL Implementation Example of a Simple Accounting System
 
 ### Create Entities
--- Create entities
 CREATE ENTITY account;
 CREATE ENTITY currency;
 CREATE ENTITY document;
@@ -640,19 +639,18 @@ VALID AT '2024-12-31'
 LAST RECORDED BEFORE '2025-01-01';
 
 ### Table Normalization
--- Normalize transaction data from source system
 NORMALIZE
     INTO currency (currency_code, currency_name) 
-    SELECT src_currency_code, src_currency_name FROM transaction_import
+    SELECT src_currency_code, src_currency_name FROM transaction
     
-    INTO document (document_number, document_type, document_status)
-    SELECT src_doc_number, src_doc_type, src_doc_status FROM transaction_import
+    INTO document (document_number, document_date, document_type, document_status, document_desc)
+    SELECT src_document_number, src_document_date, src_doc_type, src_doc_status, src_document_desc FROM transaction
     
     INTO account (account_code, account_name, account_type)
-    SELECT src_account_code, src_account_name, src_account_type FROM transaction_import
+    SELECT src_account_code, src_account_name, src_account_type FROM transaction
     
     INTO counterparty (counterparty_name, counterparty_code, counterparty_type)
-    SELECT src_counterparty_name, src_counterparty_code, src_counterparty_type FROM transaction_import
+    SELECT src_counterparty_name, src_counterparty_code, src_counterparty_type FROM transaction
 
 RELATIONSHIPS
     entry  -- OF currency, document, account, counterparty
