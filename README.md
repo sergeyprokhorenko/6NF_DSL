@@ -568,9 +568,9 @@ term
 
 ### Create Entities
 -- Create entities
+CREATE ENTITY account;
 CREATE ENTITY currency;
 CREATE ENTITY document;
-CREATE ENTITY account;
 CREATE ENTITY counterparty;
 
 ### Create references
@@ -586,7 +586,7 @@ ENTITY currency HAS ATTRIBUTE currency_name TEXT;
 -- Document attributes  
 ENTITY document HAS ATTRIBUTE document_type TEXT;
 ENTITY document HAS ATTRIBUTE document_status TEXT;
-ENTITY document HAS ATTRIBUTE notes_desc TEXT;
+ENTITY document HAS ATTRIBUTE document_desc TEXT;
 
 -- Account attributes
 ENTITY account HAS ATTRIBUTE account_code TEXT;
@@ -602,7 +602,7 @@ ENTITY counterparty HAS ATTRIBUTE counterparty_type TEXT;
 -- Document metadata
 CREATE STRUCT document_metadata FOR ENTITY document (
     document_number TEXT,
-    creation_date REFERENCE date
+    document_date DATE
 );
 
 ### Create Relationship: Accounting Entry
