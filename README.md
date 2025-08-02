@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Introduction](#1-introduction)  
 2. [Approximate Correspondence of Terms](#2-approximate-correspondence-of-terms)  
-3. [Create Entity](#3-create-entity)  
+3. [Create Entities](#3-create-entities)  
 4. [Create Reference](#4-create-reference)  
 5. [Create Simple Attribute](#5-create-simple-attribute)  
 6. [Create Attribute with Reference](#6-create-attribute-with-reference)  
