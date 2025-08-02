@@ -399,7 +399,7 @@ COMMIT;
 ## 12. EBNF Grammar
 
 ### Terminals: Basic Characters and Literals
-
+```ebnf
 letter
     : 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M'
     | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'
@@ -422,10 +422,10 @@ timestamp
 number
     : digit+
     ;
-
+```
 
 ### Identifier and Related Lists
-
+```ebnf
 identifier
     : letter (letter | digit | '_')*
     ;
@@ -439,10 +439,10 @@ selection
     : '*'
     | identifier_list
     ;
-
+```
 
 ### Data Types
-
+```ebnf
 data_type
     : 'UUID'
     | 'INT'
@@ -452,32 +452,32 @@ data_type
     | 'NUMERIC' '(' number ',' number ')'
     | 'TIMESTAMPTZ'
     ;
-
+```
 
 ### Create Entity
-
+```ebnf
 create_entity
     : 'CREATE' 'ENTITY' identifier ';'
     ;
-
+```
 
 ### Create Reference
-
+```ebnf
 create_reference
     : 'CREATE' 'REFERENCE' identifier data_type ';'
     ;
-
+```
 
 ### Create Attribute
-
+```ebnf
 create_attribute
     : 'ENTITY' identifier 'HAS' 'ATTRIBUTE' identifier data_type ';'
     | 'ENTITY' identifier 'HAS' 'ATTRIBUTE' identifier 'REFERENCE' identifier ';'
     ;
-
+```
 
 ### Create Struct of Attributes
-
+```ebnf
 create_struct
     : 'CREATE' 'STRUCT' identifier 'FOR' 'ENTITY' identifier '(' struct_items ')' ';'
     ;
@@ -491,33 +491,33 @@ struct_item
     : identifier data_type
     | identifier 'REFERENCE' identifier
     ;
-
+```
 
 ### Create Relationship
-
+```ebnf
 create_relationship
     : 'CREATE' 'RELATIONSHIP' identifier 'OF' identifier_list ';'
     ;
-
+```
 
 ### Attributes Snapshot
-
+```ebnf
 select_attributes
     : 'SELECT' selection 'FROM' 'ATTRIBUTES' 'OF' identifier
       'VALID' 'AT' timestamp 'LAST' 'RECORDED' 'BEFORE' timestamp ';'
     ;
-
+```
 
 ### Relationship Snapshot
-
+```ebnf
 select_relationship
     : 'SELECT' selection 'FROM' identifier
       'VALID' 'AT' timestamp 'LAST' 'RECORDED' 'BEFORE' timestamp ';'
     ;
-
+```
 
 ### Table Normalization
-
+```ebnf
 normalize
     : 'NORMALIZE' into_clauses 'RELATIONSHIPS' identifier_list
       'VALID' 'FROM' identifier 'FROM' identifier where_clause ';'
@@ -562,7 +562,7 @@ term
     | string
     | number
     ;
-
+```
 
 ## 13. DSL Implementation Example of a Simple Accounting System
 
