@@ -567,17 +567,22 @@ term
 ## 13. DSL Implementation Example of a Simple Accounting System
 
 ### Create Entities
+```sql
 CREATE ENTITY account;
 CREATE ENTITY currency;
 CREATE ENTITY document;
 CREATE ENTITY counterparty;
+```
 
 ### Create references
+```sql
 CREATE REFERENCE amount NUMERIC;  -- positive/negative values indicate debit/credit
 CREATE REFERENCE date TIMESTAMPTZ;
 CREATE REFERENCE description TEXT;
+```
 
 ### Create Attributes
+```sql
 -- Currency attributes
 ENTITY currency HAS ATTRIBUTE currency_code TEXT;
 ENTITY currency HAS ATTRIBUTE currency_name TEXT;
@@ -596,15 +601,19 @@ ENTITY account HAS ATTRIBUTE account_type TEXT;
 ENTITY counterparty HAS ATTRIBUTE counterparty_name TEXT;
 ENTITY counterparty HAS ATTRIBUTE counterparty_code TEXT;
 ENTITY counterparty HAS ATTRIBUTE counterparty_type TEXT;
+```
 
 ### Create Struct of Attributes
+```sql
 -- Document metadata
 CREATE STRUCT document_metadata FOR ENTITY document (
     document_number TEXT,
     document_date DATE
 );
+```
 
 ### Create Relationship: Accounting Entry
+```sql
 CREATE RELATIONSHIP entry OF
     currency,
     document, 
@@ -613,8 +622,10 @@ CREATE RELATIONSHIP entry OF
     amount,
     date,
     description;
+```
 
 ### Attributes Snapshots
+```sql
 -- Snapshot of attributes of currency
 SELECT * FROM ATTRIBUTES OF currency 
 VALID AT '2024-12-31' 
@@ -631,14 +642,18 @@ SELECT account_code, account_name, account_type
 FROM ATTRIBUTES OF account
 VALID AT '2024-12-31'
 LAST RECORDED BEFORE '2025-01-01';
+```
 
 ### Relationship Snapshot
+```sql
 SELECT *
 FROM entry
 VALID AT '2024-12-31'
 LAST RECORDED BEFORE '2025-01-01';
+```
 
 ### Table Normalization
+```sql
 NORMALIZE
     INTO currency (currency_code, currency_name) 
     SELECT src_currency_code, src_currency_name FROM transaction
@@ -658,5 +673,5 @@ RELATIONSHIPS
 VALID FROM '2025-01-01'
 FROM transaction
 WHERE transaction.status = 'VALIDATED';
-
+```
 
