@@ -610,7 +610,10 @@ CREATE RELATIONSHIP entry OF
     currency,
     document, 
     account,
-    counterparty;
+    counterparty
+    amount,
+    date,
+    description;
 
 ### Attributes Snapshots
 -- Get current state of all currencies
