@@ -13,7 +13,7 @@
 10. [Relationship Snapshot](#10-relationship-snapshot)  
 11. [Table Normalization](#11-table-normalization)  
 12. [EBNF Grammar](#12-ebnf-grammar)
-13. [DSL Implementation Example: Simple Accounting System](13#dsl_implementation_example_simple_accounting_system)
+13. [DSL Implementation Example of Simple Accounting System](13#dsl_implementation_example_of_simple_accounting_system)
 
 
 ## 1. Introduction
@@ -564,7 +564,7 @@ term
     ;
 
 
-## 13. DSL Implementation Example: Simple Accounting System
+## 13. DSL Implementation Example of Simple Accounting System
 
 ### Create Entities and References
 
