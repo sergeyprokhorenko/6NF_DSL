@@ -580,28 +580,28 @@ CREATE REFERENCE description TEXT;
 
 ### Create Attributes
 -- Currency attributes
-ENTITY currency HAS ATTRIBUTE currency_code VARCHAR(3);
-ENTITY currency HAS ATTRIBUTE currency_name VARCHAR(100);
+ENTITY currency HAS ATTRIBUTE currency_code TEXT;
+ENTITY currency HAS ATTRIBUTE currency_name TEXT;
 
 -- Document attributes  
-ENTITY document HAS ATTRIBUTE document_type VARCHAR(20);
-ENTITY document HAS ATTRIBUTE document_status VARCHAR(10);
+ENTITY document HAS ATTRIBUTE document_type TEXT;
+ENTITY document HAS ATTRIBUTE document_status TEXT;
 ENTITY document HAS ATTRIBUTE notes_desc TEXT;
 
 -- Account attributes
-ENTITY account HAS ATTRIBUTE account_code VARCHAR(20);
-ENTITY account HAS ATTRIBUTE account_name VARCHAR(100);
-ENTITY account HAS ATTRIBUTE account_type VARCHAR(20);
+ENTITY account HAS ATTRIBUTE account_code TEXT;
+ENTITY account HAS ATTRIBUTE account_name TEXT;
+ENTITY account HAS ATTRIBUTE account_type TEXT;
 
 -- Counterparty attributes
-ENTITY counterparty HAS ATTRIBUTE counterparty_name VARCHAR(100);
-ENTITY counterparty HAS ATTRIBUTE counterparty_code VARCHAR(30);
-ENTITY counterparty HAS ATTRIBUTE counterparty_type VARCHAR(20);
+ENTITY counterparty HAS ATTRIBUTE counterparty_name TEXT;
+ENTITY counterparty HAS ATTRIBUTE counterparty_code TEXT;
+ENTITY counterparty HAS ATTRIBUTE counterparty_type TEXT;
 
 ### Create Struct of Attributes
 -- Document metadata
 CREATE STRUCT document_metadata FOR ENTITY document (
-    document_number VARCHAR(50),
+    document_number TEXT,
     creation_date REFERENCE date
 );
 
