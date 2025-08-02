@@ -302,7 +302,7 @@ RELATIONSHIPS
     <relationship_1>, -- OF <entity1>, <entity2>
     <relationship_2>, -- OF <entity2>, <entity3>
     etc.
-VALID FROM <valid_from> -- Timestamp in <source_table>
+VALID FROM <valid_from> -- Timestamp column in <source_table>
 FROM <source_table>
 WHERE <condition>;
 
@@ -670,7 +670,7 @@ NORMALIZE
 RELATIONSHIPS
     entry  -- OF currency, document, account, counterparty, amount, date, description
 
-VALID FROM '2025-01-01'
+VALID FROM transaction.date
 FROM transaction
 WHERE transaction.status = 'VALIDATED';
 ```
