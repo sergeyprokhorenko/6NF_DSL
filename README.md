@@ -566,25 +566,113 @@ term
 
 ## 13. DSL Implementation Example of Simple Accounting System
 
-### Create Entities and References
+### Create Entities
+-- Create entities
+CREATE ENTITY currency;
+CREATE ENTITY document;
+CREATE ENTITY account;
+CREATE ENTITY counterparty;
 
+### Create references
+CREATE REFERENCE amount NUMERIC(18,2);  -- positive/negative values indicate debit/credit
+CREATE REFERENCE date TIMESTAMPTZ;
+CREATE REFERENCE description TEXT;
 
 ### Create Attributes
+-- Currency attributes
+ENTITY currency HAS ATTRIBUTE currency_code VARCHAR(3);
+ENTITY currency HAS ATTRIBUTE currency_name VARCHAR(100);
 
+-- Document attributes  
+ENTITY document HAS ATTRIBUTE document_number VARCHAR(50);
+ENTITY document HAS ATTRIBUTE document_type VARCHAR(20);
+ENTITY document HAS ATTRIBUTE document_status VARCHAR(10);
+
+-- Account attributes
+ENTITY account HAS ATTRIBUTE account_code VARCHAR(20);
+ENTITY account HAS ATTRIBUTE account_name VARCHAR(100);
+ENTITY account HAS ATTRIBUTE account_type VARCHAR(20);
+
+-- Counterparty attributes
+ENTITY counterparty HAS ATTRIBUTE counterparty_name VARCHAR(100);
+ENTITY counterparty HAS ATTRIBUTE counterparty_code VARCHAR(30);
+ENTITY counterparty HAS ATTRIBUTE counterparty_type VARCHAR(20);
 
 ### Create Struct of Attributes
+-- Document metadata structure
+CREATE STRUCT document_metadata FOR ENTITY document (
+    creation_date REFERENCE date,
+    approval_flag BOOLEAN,
+    notes_desc TEXT,
+    priority_code VARCHAR(10)
+);
 
+-- Account classification structure  
+CREATE STRUCT account_classification FOR ENTITY account (
+    balance_type VARCHAR(10),
+    reporting_flag BOOLEAN,
+    parent_account_code VARCHAR(20)
+);
 
 ### Create Relationship: Accounting Entry
-
+CREATE RELATIONSHIP entry OF
+    currency,
+    document, 
+    account,
+    counterparty;
 
 ### Attributes Snapshots
+-- Get current state of all currencies
+SELECT * FROM ATTRIBUTES OF currency 
+VALID AT '2024-12-31T23:59:59Z' 
+LAST RECORDED BEFORE '2025-01-01T00:00:00Z';
 
+-- Get document attributes as of specific date
+SELECT document_number, document_type, document_status 
+FROM ATTRIBUTES OF document 
+VALID AT '2024-06-30T23:59:59Z'
+LAST RECORDED BEFORE '2024-07-01T00:00:00Z';
+
+-- Get account information for reporting
+SELECT account_code, account_name, account_type
+FROM ATTRIBUTES OF account
+VALID AT '2024-12-31T23:59:59Z'
+LAST RECORDED BEFORE '2025-01-01T00:00:00Z';
 
 ### Relationship Snapshot
+-- Get all accounting entries for a specific period
+SELECT currency_id, document_id, account_id, counterparty_id
+FROM entry
+VALID AT '2024-12-31T23:59:59Z'
+LAST RECORDED BEFORE '2025-01-01T00:00:00Z';
 
+-- Get entries filtered by validity period
+SELECT currency_id, document_id, account_id, counterparty_id, valid_from, recorded_at
+FROM entry  
+VALID AT '2024-12-31T23:59:59Z'
+LAST RECORDED BEFORE '2025-01-01T00:00:00Z';
 
 ### Table Normalization
+-- Normalize transaction data from source system
+NORMALIZE
+    INTO currency (currency_code, currency_name) 
+    SELECT src_currency_code, src_currency_name FROM transaction_import
+    
+    INTO document (document_number, document_type, document_status)
+    SELECT src_doc_number, src_doc_type, src_doc_status FROM transaction_import
+    
+    INTO account (account_code, account_name, account_type)
+    SELECT src_account_code, src_account_name, src_account_type FROM transaction_import
+    
+    INTO counterparty (counterparty_name, counterparty_code, counterparty_type)
+    SELECT src_counterparty_name, src_counterparty_code, src_counterparty_type FROM transaction_import
+
+RELATIONSHIPS
+    entry  -- OF currency, document, account, counterparty
+
+VALID FROM transaction_date
+FROM transaction_import
+WHERE import_status = 'VALIDATED';
 
 
 
