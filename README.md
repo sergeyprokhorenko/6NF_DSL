@@ -246,7 +246,7 @@ ORDER BY <entity>.id;
 ```sql
 
 -- DSL
-SELECT <entities_and_references> FROM <relationship> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
+SELECT <entities_and_references> FROM RELATIONSHIP <relationship> VALID AT <valid_at> LAST RECORDED BEFORE <last_recorded_before>;
 
 -- Equivalent PostgreSQL 18 SQL
 SELECT
@@ -511,7 +511,7 @@ select_attributes
 ### Relationship Snapshot
 ```ebnf
 select_relationship
-    : 'SELECT' selection 'FROM' identifier
+    : 'SELECT' selection 'FROM' 'RELATIONSHIP' identifier
       'VALID' 'AT' timestamp 'LAST' 'RECORDED' 'BEFORE' timestamp ';'
     ;
 ```
@@ -647,7 +647,7 @@ LAST RECORDED BEFORE '2025-01-01';
 ### Relationship Snapshot
 ```sql
 SELECT *
-FROM entry
+FROM RELATIONSHIP entry
 VALID AT '2024-12-31'
 LAST RECORDED BEFORE '2025-01-01';
 ```
