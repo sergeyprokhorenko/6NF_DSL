@@ -653,14 +653,10 @@ NORMALIZE
     SELECT src_counterparty_name, src_counterparty_code, src_counterparty_type FROM transaction
 
 RELATIONSHIPS
-    entry  -- OF currency, document, account, counterparty
+    entry  -- OF currency, document, account, counterparty, amount, date, description
 
-VALID FROM transaction_date
-FROM transaction_import
-WHERE import_status = 'VALIDATED';
-
-
-
-
+VALID FROM '2025-01-01'
+FROM transaction
+WHERE transaction.status = 'VALIDATED';
 
 
