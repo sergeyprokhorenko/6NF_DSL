@@ -12,8 +12,8 @@
 9. [Attributes Snapshot](#9-attributes-snapshot)  
 10. [Relationship Snapshot](#10-relationship-snapshot)  
 11. [Table Normalization](#11-table-normalization)  
-12. [EBNF Grammar](#12-ebnf-grammar)
-13. [DSL Implementation Example of a Simple Accounting System](13#dsl_implementation_example_of_a_simple_accounting_system)
+12. [EBNF Grammar](#12-ebnf-grammar)  
+13. [DSL Implementation Example of a Simple Accounting System](#13-dsl-implementation-example-of-a-simple-accounting-system)  
 
 
 ## 1. Introduction
