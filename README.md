@@ -563,3 +563,30 @@ term
     ;
 
 
+## 13. DSL Implementation Example: Simple Accounting System
+
+### Create Entities and References
+
+
+### Create Attributes
+
+
+### Create Struct of Attributes
+
+
+### Create Relationship: Accounting Entry
+
+
+### Attributes Snapshots
+
+
+### Relationship Snapshot
+
+
+### Table Normalization
+
+
+
+
+
+
