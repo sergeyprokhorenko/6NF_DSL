@@ -634,15 +634,8 @@ VALID AT '2024-12-31'
 LAST RECORDED BEFORE '2025-01-01';
 
 ### Relationship Snapshot
--- Get all accounting entries for a specific period
-SELECT currency_id, document_id, account_id, counterparty_id
+SELECT *
 FROM entry
-VALID AT '2024-12-31'
-LAST RECORDED BEFORE '2025-01-01';
-
--- Get entries filtered by validity period
-SELECT currency_id, document_id, account_id, counterparty_id, valid_from, recorded_at
-FROM entry  
 VALID AT '2024-12-31'
 LAST RECORDED BEFORE '2025-01-01';
 
