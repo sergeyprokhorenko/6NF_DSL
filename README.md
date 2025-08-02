@@ -670,7 +670,7 @@ NORMALIZE
 RELATIONSHIPS
     entry  -- OF currency, document, account, counterparty, amount, date, description
 
-VALID FROM transaction.date
+VALID FROM transaction.date  -- It is assumed that such a column exists
 FROM transaction
 WHERE transaction.status = 'VALIDATED';
 ```
