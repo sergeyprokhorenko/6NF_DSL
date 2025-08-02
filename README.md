@@ -584,9 +584,9 @@ ENTITY currency HAS ATTRIBUTE currency_code VARCHAR(3);
 ENTITY currency HAS ATTRIBUTE currency_name VARCHAR(100);
 
 -- Document attributes  
-ENTITY document HAS ATTRIBUTE document_number VARCHAR(50);
 ENTITY document HAS ATTRIBUTE document_type VARCHAR(20);
 ENTITY document HAS ATTRIBUTE document_status VARCHAR(10);
+ENTITY document HAS ATTRIBUTE notes_desc TEXT;
 
 -- Account attributes
 ENTITY account HAS ATTRIBUTE account_code VARCHAR(20);
@@ -599,19 +599,10 @@ ENTITY counterparty HAS ATTRIBUTE counterparty_code VARCHAR(30);
 ENTITY counterparty HAS ATTRIBUTE counterparty_type VARCHAR(20);
 
 ### Create Struct of Attributes
--- Document metadata structure
+-- Document metadata
 CREATE STRUCT document_metadata FOR ENTITY document (
-    creation_date REFERENCE date,
-    approval_flag BOOLEAN,
-    notes_desc TEXT,
-    priority_code VARCHAR(10)
-);
-
--- Account classification structure  
-CREATE STRUCT account_classification FOR ENTITY account (
-    balance_type VARCHAR(10),
-    reporting_flag BOOLEAN,
-    parent_account_code VARCHAR(20)
+    document_number VARCHAR(50),
+    creation_date REFERENCE date
 );
 
 ### Create Relationship: Accounting Entry
