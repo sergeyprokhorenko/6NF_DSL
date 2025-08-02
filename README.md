@@ -13,7 +13,7 @@
 10. [Relationship Snapshot](#10-relationship-snapshot)  
 11. [Table Normalization](#11-table-normalization)  
 12. [EBNF Grammar](#12-ebnf-grammar)
-13. [DSL Implementation Example of Simple Accounting System](13#dsl_implementation_example_of_simple_accounting_system)
+13. [DSL Implementation Example of a Simple Accounting System](13#dsl_implementation_example_of_a_simple_accounting_system)
 
 
 ## 1. Introduction
@@ -564,7 +564,7 @@ term
     ;
 
 
-## 13. DSL Implementation Example of Simple Accounting System
+## 13. DSL Implementation Example of a Simple Accounting System
 
 ### Create Entities
 -- Create entities
@@ -574,7 +574,7 @@ CREATE ENTITY document;
 CREATE ENTITY counterparty;
 
 ### Create references
-CREATE REFERENCE amount NUMERIC(18,2);  -- positive/negative values indicate debit/credit
+CREATE REFERENCE amount NUMERIC;  -- positive/negative values indicate debit/credit
 CREATE REFERENCE date TIMESTAMPTZ;
 CREATE REFERENCE description TEXT;
 
