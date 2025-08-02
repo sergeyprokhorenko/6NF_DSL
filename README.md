@@ -615,33 +615,33 @@ CREATE RELATIONSHIP entry OF
 ### Attributes Snapshots
 -- Get current state of all currencies
 SELECT * FROM ATTRIBUTES OF currency 
-VALID AT '2024-12-31T23:59:59Z' 
-LAST RECORDED BEFORE '2025-01-01T00:00:00Z';
+VALID AT '2024-12-31' 
+LAST RECORDED BEFORE '2025-01-01';
 
 -- Get document attributes as of specific date
 SELECT document_number, document_type, document_status 
 FROM ATTRIBUTES OF document 
-VALID AT '2024-06-30T23:59:59Z'
-LAST RECORDED BEFORE '2024-07-01T00:00:00Z';
+VALID AT '2024-06-30'
+LAST RECORDED BEFORE '2024-07-01';
 
 -- Get account information for reporting
 SELECT account_code, account_name, account_type
 FROM ATTRIBUTES OF account
-VALID AT '2024-12-31T23:59:59Z'
-LAST RECORDED BEFORE '2025-01-01T00:00:00Z';
+VALID AT '2024-12-31'
+LAST RECORDED BEFORE '2025-01-01';
 
 ### Relationship Snapshot
 -- Get all accounting entries for a specific period
 SELECT currency_id, document_id, account_id, counterparty_id
 FROM entry
-VALID AT '2024-12-31T23:59:59Z'
-LAST RECORDED BEFORE '2025-01-01T00:00:00Z';
+VALID AT '2024-12-31'
+LAST RECORDED BEFORE '2025-01-01';
 
 -- Get entries filtered by validity period
 SELECT currency_id, document_id, account_id, counterparty_id, valid_from, recorded_at
 FROM entry  
-VALID AT '2024-12-31T23:59:59Z'
-LAST RECORDED BEFORE '2025-01-01T00:00:00Z';
+VALID AT '2024-12-31'
+LAST RECORDED BEFORE '2025-01-01';
 
 ### Table Normalization
 -- Normalize transaction data from source system
