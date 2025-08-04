@@ -1,0 +1,99 @@
+-- Create Entities
+CREATE ENTITIES account
+             ,currency
+             ,document
+             ,counterparty;
+
+-- Create references
+CREATE REFERENCE amount NUMERIC;  -- positive/negative values indicate debit/credit
+CREATE REFERENCE "date" TIMESTAMPTZ;
+CREATE REFERENCE description TEXT;
+
+-- Currency attributes
+ENTITY currency HAS ATTRIBUTE currency_code TEXT;
+ENTITY currency HAS ATTRIBUTE currency_name TEXT;
+
+-- Document attributes  
+ENTITY document HAS ATTRIBUTE document_type TEXT;
+ENTITY document HAS ATTRIBUTE document_status TEXT;
+ENTITY document HAS ATTRIBUTE document_desc TEXT;
+
+-- Account attributes
+ENTITY account HAS ATTRIBUTE account_code TEXT;
+ENTITY account HAS ATTRIBUTE account_name TEXT;
+ENTITY account HAS ATTRIBUTE account_type TEXT;
+
+-- Counterparty attributes
+ENTITY counterparty HAS ATTRIBUTE counterparty_name TEXT;
+ENTITY counterparty HAS ATTRIBUTE counterparty_code TEXT;
+ENTITY counterparty HAS ATTRIBUTE counterparty_type TEXT;
+
+-- Document metadata
+CREATE STRUCT document_metadata FOR ENTITY document (
+    document_number TEXT,
+    document_date DATE
+);
+
+-- Create Relationship: Accounting Entry
+CREATE RELATIONSHIP entry OF
+    currency,
+    document, 
+    account,
+    counterparty,
+    amount,
+    "date",
+    description;
+
+-- Snapshot of attributes of currency
+SELECT * FROM ATTRIBUTES OF currency 
+VALID AT '2024-12-31' 
+LAST RECORDED BEFORE '2025-01-01';
+
+-- Snapshot of attributes of date
+SELECT document_number, document_type, document_status 
+FROM ATTRIBUTES OF document 
+VALID AT '2024-06-30'
+LAST RECORDED BEFORE '2024-07-01';
+
+-- Snapshot of attributes of account
+SELECT account_code, account_name, account_type
+FROM ATTRIBUTES OF account
+VALID AT '2024-12-31'
+LAST RECORDED BEFORE '2025-01-01';
+
+-- Relationship Snapshot
+SELECT *
+FROM entry
+VALID AT '2024-12-31'
+LAST RECORDED BEFORE '2025-01-01';
+
+-- Table Normalization
+NORMALIZE
+    INTO currency (currency_code, currency_name) 
+    SELECT src_currency_code, src_currency_name FROM transaction
+    
+    INTO document (document_number, document_date, document_type, document_status, document_desc)
+    SELECT src_document_number, src_document_date, src_doc_type, src_doc_status, src_document_desc FROM transaction
+    
+    INTO account (account_code, account_name, account_type)
+    SELECT src_account_code, src_account_name, src_account_type FROM transaction
+    
+    INTO counterparty (counterparty_name, counterparty_code, counterparty_type)
+    SELECT src_counterparty_name, src_counterparty_code, src_counterparty_type FROM transaction
+
+RELATIONSHIPS
+    entry  -- OF currency, document, account, counterparty, amount, date, description
+
+VALID FROM transaction.date  -- It is assumed that such a column exists
+FROM transaction
+WHERE transaction.status = 'VALIDATED'
+    OR (
+        transaction.status IN ('READY', 'TO', 'GO')
+    )
+    AND transaction.status NOt IN ('NotReady');
+
+-- Relationship Snapshot
+SELECT *
+FROM RELATIONSHIP entry
+VALID AT '2024-12-31'
+LAST RECORDED BEFORE '2025-01-01';
