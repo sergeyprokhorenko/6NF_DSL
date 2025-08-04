@@ -1,0 +1,300 @@
+#!/usr/bin/env python3
+import codecs
+from io import FileIO
+import sys
+from typing import List
+import click
+from antlr4 import *
+
+
+from SixNFLexer import SixNFLexer
+from SixNFListener import SixNFListener
+from SixNFParser import SixNFParser
+from sast import (
+    Attribute,
+    AttributePromise,
+    AttributesSnapshot,
+    BinaryOperator,
+    BinaryOperatorType,
+    CriteriaOperator,
+    Entity,
+    EntityOrReferencePromise,
+    EntityPromise,
+    GroupOperator,
+    GroupOperatorType,
+    InOperator,
+    OperandProperty,
+    OperandValue,
+    Reference,
+    ReferencePromise,
+    Relationship,
+    RelationshipPromise,
+    RelationshipSnapshot,
+    Struct,
+    STree,
+    StructAttribute,
+    TableNormalization,
+    TableNormalizationInto,
+)
+
+__version__ = "dev"
+
+
+@click.command(name="version")
+def cli_version():
+    click.echo(__version__)
+
+
+@click.group()
+def cli():
+    pass
+
+
+@cli.group()
+def postgres():
+    pass
+
+
+class SixNFListenerInterp(SixNFListener):
+    def __init__(self, sast: STree):
+        self.sast = sast
+
+    def exitCreate_entities(self, ctx: SixNFParser.Create_entitiesContext):
+        el: List[Entity] = []
+        for i in ctx.identifier_list().children:
+            if isinstance(i, SixNFParser.IdentifierContext):
+                el.append(Entity(name=i.getText()))
+            else:
+                continue
+        self.sast.add_entities(el)
+
+    def exitCreate_reference(self, ctx: SixNFParser.Create_referenceContext):
+        r = Reference(name=ctx.name.getText(), dt=ctx.dt.getText())
+        self.sast.add_reference(r)
+
+    def exitCreate_attribute_simple(self, ctx: SixNFParser.Create_attribute_simpleContext):
+        a = Attribute(
+            name=ctx.name.getText(),
+            entity=EntityPromise(stree=self.sast, name=ctx.entity.getText()),
+            dt=ctx.dt.getText(),
+            reference=None,
+        )
+        self.sast.add_attribute(a)
+
+    def exitCreate_struct(self, ctx: SixNFParser.Create_structContext):
+        s = Struct(
+            name=ctx.name.getText(),
+            entity=EntityPromise(stree=self.sast, name=ctx.entity.getText()),
+            attributes=[],
+        )
+
+        for sc in ctx.struct_item_list().children:
+            if isinstance(sc, SixNFParser.Struct_itemContext):
+                scc = sc.children[0]
+                if isinstance(scc, SixNFParser.Struct_item_simpleContext):
+                    aname = scc.name.getText()
+                    adt = scc.dt.getText()
+                    s.attributes.append(StructAttribute(name=aname, dt=adt, reference=None))
+                elif isinstance(scc, SixNFParser.Struct_item_refContext):
+                    aname = scc.name.getText()
+                    aref = scc.ref.getText()
+                    s.attributes.append(
+                        StructAttribute(
+                            name=aname,
+                            dt=None,
+                            reference=ReferencePromise(self.sast, aref),
+                        )
+                    )
+                else:
+                    raise TypeError(f"unsupported type: {type(scc)}")
+            else:
+                continue
+
+        self.sast.add_struct(s)
+
+    def exitCreate_relationship(self, ctx: SixNFParser.Create_relationshipContext):
+        r = Relationship(name=ctx.name.getText(), erefs=[])
+
+        for i in ctx.identifier_list().children:
+            if isinstance(i, SixNFParser.IdentifierContext):
+                r.erefs.append(EntityOrReferencePromise(stree=self.sast, name=i.getText()))
+            else:
+                continue
+
+        self.sast.add_relationship(r)
+
+    def exitSelect_attributes(self, ctx: SixNFParser.Select_attributesContext):
+        a = AttributesSnapshot(
+            name=f"AttributeSnaphost_TODO_{ctx.start.start}",
+            entity=EntityPromise(stree=self.sast, name=ctx.entity.getText()),
+            valid_at=ctx.valid_at.getText().strip("'"),
+            last_recorded_before=ctx.last_recorded_before.getText().strip("'"),
+            attributes=[],
+        )
+
+        selText = ctx.selection().getText()
+        selList = ctx.selection().identifier_list()
+        if selText == "*":
+            if selList is not None:
+                raise ValueError("incorrect attributes selection")
+            a.attributes.append(AttributePromise(stree=self.sast, name="*"))
+        else:
+            for i in selList.identifier():
+                a.attributes.append(AttributePromise(stree=self.sast, name=i.getText()))
+
+        self.sast.add_attribute_snapshot(a)
+
+    def exitSelect_relationship_snapshot(self, ctx: SixNFParser.Select_relationship_snapshotContext):
+        rs = RelationshipSnapshot(
+            name=f"RelationshipSnapshot_TODO_{ctx.start.start}",
+            erefs=[],
+            relationship=RelationshipPromise(stree=self.sast, name=ctx.rname.getText()),
+            valid_at=ctx.valid_at.getText().strip("'"),
+            last_recorded_before=ctx.last_recorded_before.getText().strip("'"),
+        )
+
+        selText = ctx.selection().getText()
+        selList = ctx.selection().identifier_list()
+        if selText == "*":
+            if selList is not None:
+                raise ValueError("incorrect entities and relation selection")
+            rs.erefs.append(EntityOrReferencePromise(stree=self.sast, name="*"))
+        else:
+            for i in selList.identifier():
+                rs.erefs.append(EntityOrReferencePromise(stree=self.sast, name=i.getText()))
+
+        self.sast.add_relationship_snapshot(rs)
+
+    def exitNormalize(self, ctx: SixNFParser.NormalizeContext):
+        if ctx.condition is None:
+            condition = None
+        else:
+            str2bop = {
+                "=": BinaryOperatorType.EQ,
+                ">": BinaryOperatorType.GREATER,
+                ">=": BinaryOperatorType.GREATER_OR_EQUAL,
+                "<": BinaryOperatorType.LESS,
+                "<=": BinaryOperatorType.LESS_OR_EQUAL,
+                "!=": BinaryOperatorType.NOT_EQ,
+                "<>": BinaryOperatorType.NOT_EQ,
+            }
+
+            def parse_criteria_operator(ctx) -> CriteriaOperator:
+                if isinstance(ctx, SixNFParser.Where_clauseContext):
+                    wctx: SixNFParser.Where_clauseContext = ctx
+                    if wctx.K_AND():
+                        return GroupOperator(
+                            op=GroupOperatorType.AND,
+                            ol=[parse_criteria_operator(w) for w in wctx.where_clause()],
+                        )
+                    elif wctx.K_OR():
+                        return GroupOperator(
+                            op=GroupOperatorType.OR,
+                            ol=[parse_criteria_operator(w) for w in wctx.where_clause()],
+                        )
+                    elif wctx.where_clause_binary():
+                        b: SixNFParser.Where_clause_binaryContext = wctx.where_clause_binary()
+                        return BinaryOperator(
+                            l=parse_criteria_operator(b.children[0]),
+                            op=str2bop[b.children[1].getText()],
+                            r=parse_criteria_operator(b.children[2]),
+                        )
+                    elif wctx.where_clause_in():
+                        i: SixNFParser.Where_clause_inContext = wctx.where_clause_in()
+                        return InOperator(
+                            l=parse_criteria_operator(i.children[0]),
+                            v=[parse_criteria_operator(w) for w in i.where_operand_value()],
+                        )
+                    elif len(wctx.where_clause()) == 1:
+                        return parse_criteria_operator(wctx.where_clause()[0])
+                    else:
+                        raise ValueError("not supported")
+                elif isinstance(ctx, SixNFParser.IdentifierContext):
+                    ictx: SixNFParser.IdentifierContext = ctx
+                    return OperandProperty(name=ictx.getText())
+                elif isinstance(ctx, SixNFParser.Where_operand_valueContext):
+                    vctx: SixNFParser.Where_operand_valueContext = ctx
+                    return OperandValue(value=vctx.getText())
+                else:
+                    raise ValueError("not supported")
+
+            condition = parse_criteria_operator(ctx.condition)
+
+        tn = TableNormalization(
+            name=f"TableNormalization_TODO_{ctx.start.start}",
+            relationships=[],
+            intos=[],
+            valid_from=ctx.valid_from.getText(),
+            source_table=ctx.source_table.getText(),
+            condition=condition,
+        )
+
+        for r in ctx.identifier_list().identifier():
+            tn.relationships.append(RelationshipPromise(stree=self.sast, name=r.getText()))
+
+        for i in ctx.into_clauses().into_clause():
+            tni = TableNormalizationInto(
+                name=f"TableNormalizationInto_TODO_{i.start.start}",
+                entity=EntityPromise(stree=self.sast, name=i.entity.getText()),
+                attributes=[],
+                cols=[],
+                source_table=i.source_table.getText(),
+            )
+
+            for a in i.alist.identifier():
+                tni.attributes.append(AttributePromise(stree=self.sast, name=a.getText()))
+
+            for c in i.clist.identifier():
+                tni.cols.append(c.getText())
+
+            tn.intos.append(tni)
+
+        self.sast.add_table_normalization(tn)
+
+
+@click.command(name="compile")
+@click.option(
+    "--file",
+    "-f",
+    multiple=True,
+    type=click.File("rb"),
+    help="input .6nf file names (multiple)",
+)
+def postgres_compile(file: List[FileIO]):
+    sast = STree()
+
+    for f in file:
+        click.echo(f"Start processing: {f.name}")
+        bytes = f.read()
+        f.close()
+        data = codecs.decode(bytes)
+        lexer = SixNFLexer(InputStream(data))
+        stream = CommonTokenStream(lexer)
+        parser = SixNFParser(stream)
+        tree = parser.parse()
+        if parser.getNumberOfSyntaxErrors() > 0:
+            click.echo(
+                f"Error: total {parser.getNumberOfSyntaxErrors()} syntax error(-s) detected while processing {f.name}",
+                err=True,
+            )
+            exit(-1)
+
+        click.echo(f"Ok: {f.name} parsed, continue generation...")
+        linterp = SixNFListenerInterp(sast)
+        walker = ParseTreeWalker()
+        walker.walk(linterp, tree)
+
+    click.echo(repr(sast))
+
+    print("------------------")
+    from postgres import Postgres, PostgresNameFormatter
+
+    pg = Postgres(sast, PostgresNameFormatter())
+    pg.dump(sys.stdout)
+    print("------------------")
+
+
+if __name__ == "__main__":
+    postgres.add_command(postgres_compile)
+    cli.add_command(cli_version)
+    cli()
