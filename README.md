@@ -679,7 +679,9 @@ FROM transaction
 WHERE transaction.status = 'VALIDATED';
 ```
 
-## The same example in JSON format
+
+## 14. The same example in JSON format
+
 ```json
 [
   {
