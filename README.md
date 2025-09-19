@@ -682,6 +682,8 @@ WHERE transaction.status = 'VALIDATED';
 
 ## 14. The same example in JSON format
 
+JSON-6NF
+
 ```json
 [
   {
