@@ -678,3 +678,90 @@ FROM transaction
 WHERE transaction.status = 'VALIDATED';
 ```
 
+### The same example in JSON format
+```json
+[
+  {
+    "type": "ENTITY",
+    "table": "bank",
+    "entity_id": "01K3Y0690AJCRFEJ2J49X6ZECY"
+  },
+  {
+    "type": "REFERENCE",
+    "table": "country_code",
+    "reference_id": "01K3Y07Z94DGJWVMB0JG4YSDBV",
+    "value": "US"
+  },
+  {
+    "type": "ATTRIBUTE_OF",
+    "entity_name": "bank",
+    "entity_id": "01K3Y0690AJCRFEJ2J49X6ZECY",
+    "table": "bank_name",
+    "value": "Bank Alpha",
+    "valid_from": "2023-01-01T00:00:00Z",
+    "recorded_at": "2023-01-01T12:00:00Z"
+  },
+  {
+    "type": "ATTRIBUTE_REF_OF",
+    "entity_name": "bank",
+    "entity_id": "01K3Y0690AJCRFEJ2J49X6ZECY",
+    "table": "country_code",
+    "reference_id": "01K3Y07Z94DGJWVMB0JG4YSDBV",
+    "valid_from": "2023-01-01T00:00:00Z",
+    "recorded_at": "2023-01-01T12:00:00Z"
+  },
+  {
+    "type": "STRUCT_OF",
+    "entity_name": "bank",
+    "entity_id": "01K3Y0690AJCRFEJ2J49X6ZECY",
+    "table": "bank_address",
+    "valid_from": "2023-01-01T00:00:00Z",
+    "recorded_at": "2023-01-01T12:00:00Z",
+    "columns": {
+      "country_code": "01K3Y07Z94DGJWVMB0JG4YSDBV",
+      "street": "123 Main St",
+      "city": "New York",
+      "zip": "10001"
+    }
+  },
+  {
+    "type": "ENTITY",
+    "table": "account",
+    "entity_id": "01K3Y0G45CP4GMGE94BYQ09DFM"
+  },
+  {
+    "type": "ATTRIBUTE_OF",
+    "entity_name": "account",
+    "entity_id": "01K3Y0G45CP4GMGE94BYQ09DFM",
+    "table": "account_balance",
+    "value": 100000.5,
+    "valid_from": "2023-01-01T00:00:00Z",
+    "recorded_at": "2023-01-01T12:00:00Z"
+  },
+  {
+    "type": "ATTRIBUTE_OF",
+    "entity_name": "account",
+    "entity_id": "01K3Y0G45CP4GMGE94BYQ09DFM",
+    "table": "account_expiration",
+    "value": "2025-12-31T23:59:59Z",
+    "valid_from": "2023-01-01T00:00:00Z",
+    "recorded_at": "2023-01-01T12:00:00Z"
+  },
+  {
+    "type": "RELATIONSHIP",
+    "table": "bank_x_account",
+    "relationship_id": "01K3Y0NR1Q3KTA9A6J9KYPK6YB",
+    "valid_from": "2023-01-01T00:00:00Z",
+    "recorded_at": "2023-01-01T12:00:00Z",
+    "columns": {
+      "bank": "01K3Y0690AJCRFEJ2J49X6ZECY",
+      "account": "01K3Y0G45CP4GMGE94BYQ09DFM"
+    }
+  }
+]
+```
+
+
+
+
+
