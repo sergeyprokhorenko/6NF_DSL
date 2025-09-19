@@ -14,6 +14,7 @@
 11. [Table Normalization](#11-table-normalization)  
 12. [EBNF Grammar](#12-ebnf-grammar)  
 13. [DSL Implementation Example of a Simple Accounting System](#13-dsl-implementation-example-of-a-simple-accounting-system)  
+14. [The same example in JSON format](#14-the-same-example-in-json-format)  
 
 
 ## 1. Introduction
@@ -678,7 +679,7 @@ FROM transaction
 WHERE transaction.status = 'VALIDATED';
 ```
 
-### The same example in JSON format
+## The same example in JSON format
 ```json
 [
   {
